@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">>
+<link rel="stylesheet" href="CSS_Styles.css">
+
+
+
+
+<!-- added sunburst -->
+
+
+<head>
+    <title>dc.js - Sunburst_States example</title>
+    <meta charset="UTF-8">
+    <!-- ***change to corresponding file names of source*** -->
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="dc.css"/>
+    <style>
+        .pie-slice path {
+            stroke: #fff;
+        }
+
+        .dc-chart .selected path {
+            stroke-width: 1px;
+            stroke: #fff;
+        }
+        header {font-size: 36px}
+    </style>
+</head>
+<body>
+    <div id="mapId"></div>
+<script>
+var map = L.map("mapId");
+//replace the code below from the Plain JavaScript from the map style you choose
+//at http://leaflet-extras.github.io/leaflet-providers/preview/
+
+var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
+  maxZoom: 20,
+  attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+});
+
+//change the varialbe "OpenTopoMap" according to the map style you choose
+//It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
+USGS_USImagery.addTo(map);
+</script>
+<br>
+    <header> <b> Counties by area (Sq mi) </b></header> <br>
+    
+<div class="container">
+<!-- ***change to corresponding file names of source*** -->
+    <script type="text/javascript" src="header.js"></script>
+
+   
+
+    <div id="test"></div>
+<!-- ***change to corresponding file names of source*** -->
+    <script type="text/javascript" src="d3.js"></script>
+    <script type="text/javascript" src="crossfilter.js"></script>
+    <script type="text/javascript" src="reductio.js"></script>
+    <script type="text/javascript" src="dc.js"></script>
+    <script type="text/javascript">
+//  ***change to corresponding file names of source*** 
+    d3.csv('Sunburst_states.csv').then(function (dataset){
+        dataset.forEach(function(d){
+   
+            d.number_ordered = +d.number_ordered;
+            d.number_ordered = +d.number_ordered;
+            d.amount = +d.amount;
+        })
+        var ndx = crossfilter(dataset);
+
+        var dimension = ndx.dimension(function (x) {
+            // ***add more categories or rename categories here***
+            // return [x.category, x.sub_category];
+             return [x.category, x.sub_cat, x.sub_cat_2];
+        });
+        var group = dimension.group();
+        var reducer = reductio();
+
+        
+        reducer
+       
+            .value('_ordered')
+            .exception(
+                function (d) {
+                    return d.item_id;
+                }
+            )
+            .exceptionSum(function (d) {
+                return d.number_ordered;
+            });
+
+        reducer(group);
+
+        var sunBurstChart = new dc.SunburstChart("#test");
+
+        sunBurstChart
+            .width(800)
+            .height(600)
+            .innerRadius(100)
+            .dimension(dimension)
+            .group(group)
+            .valueAccessor(function (d) {
+
+        
+                return d.value._ordered.exceptionSum;
+            })
+            .legend(dc.legend());
+
+        dc.renderAll();
+    });
+
+    </script>
+    <br>
+
+<p> This example is based on <a href="https://dc-js.github.io/dc.js/examples/sunburst-with-value-accessor.html"> https://dc-js.github.io/dc.js/examples/sunburst-with-value-accessor.html</a></p>
+<!-- <p>
+    This example uses <a href="https://github.com/crossfilter/reductio">Reductio</a> to reduce groups.
+    It generates multiple reductions - the chart uses one of the those using a custom value accessor.
+    This example also demonstrates fix for issue <a href="https://github.com/dc-js/dc.js/issues/1440">#1440</a>.
+</p> -->
+
+
+
+</div>
+</body>
+</html>
