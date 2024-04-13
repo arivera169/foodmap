@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+  <meta charset=“UTF-8”>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A Leaflet map!</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
-  <link rel="stylesheet" href="CSS_Styles.css"/>
-  <link rel="stylesheet" href="bootstrap.min.css"/>
+  <link rel="stylesheet" href="CSS_Styles.css" />
+  <!-- added code for heatmap -->
+  <link rel="stylesheet" href="leaflet.css">
+  <!-- delete 1.6 version of leaflet -->
+  <link rel="stylesheet" href="bootstrap.min.css" />
+  <link rel="stylesheet" href="MarkerCluster.css" />
+  <link rel="stylesheet" href="MarkerCluster.Default.css" />
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="bootstrap.min.js"></script>
-  
+  <!-- added code for heatmap -->
+  <script src="leaflet.js"></script>
+  <script src="heatmap.js"></script>
+  <script src="leaflet-heatmap.js"></script>
+  <script src="heatmap-data.js"></script>
+  <script src="Stores_Choro.js"></script> 
+  <script src="leaflet.markercluster.js"></script>
 </head>
 <header> Food Access Map</header>
+
 <body>
   <script type="text/javascript">
-    $(window).on('load', function() {
-        $('#myModal_md').modal('show');
+    $(window).on('load', function () {
+      $('#myModal_md').modal('show');
     });
-</script>
+  </script>
 
   <div class="row">
     <div class="col-md-4">
-  
+
       <div class="container">
         <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal_md">About this project</button>
-  
+        <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal_md">About this
+          project</button>
+
         <!-- Modal -->
         <div class="modal fade" id="myModal_md" role="dialog">
           <!-- Large Modal -->
@@ -49,66 +63,122 @@
     </div>
   </div>
 
-<div class="row" class="position-relative">
-  <!-- <div class="position-absolute bottom-0" -->
-   <div class="col-md-4">
-    <div id="mapId"></div>
+  <div class="row" class="position-relative">
+    <!-- <div class="position-absolute bottom-0" -->
+    <div class="col-md-4">
+      <div id="mapId"></div>
 
-    <script>
-
-
-
-      /* initialize the map. 
-      setView method: Sets the view of the map (geographical center and zoom) with the given animation options.
-    
-      setView( <LatLng> center, <Number> zoom?, <zoom/pan options> options? )
-      */
-
-      var map = L.map('mapId').setView([35.260310, -106.597695], 16);
-
-      //replace the code below from the Plain JavaScript from the map style you choose
-      //at http://leaflet-extras.github.io/leaflet-providers/preview/
-
-      var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 8,
-        attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
-      });
-
-      //change the varialbe "OpenTopoMap" according to the map style you choose
-      //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
-      USGS_USImagery.addTo(map);
-    </script>
-  </div>
-  <!-- <div class="position-absolute bottom-0" -->
-   <div class="col-md-4 col-md-offset-3"> 
-
-     <div id="mapId2"></div>
-
-    <script>
+      <script>
 
 
 
-      /* initialize the map. 
-      setView method: Sets the view of the map (geographical center and zoom) with the given animation options.
-    
-      setView( <LatLng> center, <Number> zoom?, <zoom/pan options> options? )
-      */
+        /* initialize the map. 
+        setView method: Sets the view of the map (geographical center and zoom) with the given animation options.
+      
+        setView( <LatLng> center, <Number> zoom?, <zoom/pan options> options? )
+        */
 
-      var map1 = L.map('mapId2').setView([35.260310, -106.597695], 16);
+        var map = L.map('mapId').setView([35.260310, -106.597695], 16);
 
-      //replace the code below from the Plain JavaScript from the map style you choose
-      //at http://leaflet-extras.github.io/leaflet-providers/preview/
+        //replace the code below from the Plain JavaScript from the map style you choose
+        //at http://leaflet-extras.github.io/leaflet-providers/preview/
 
-      var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 8,
-        attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
-      });
+        var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
+          maxZoom: 8,
+          attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+        });
 
-      //change the varialbe "OpenTopoMap" according to the map style you choose
-      //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
-      USGS_USImagery.addTo(map1);
-    </script>
-  </div>
-</div>
+        //change the varialbe "OpenTopoMap" according to the map style you choose
+        //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
+        USGS_USImagery.addTo(map);
+      </script>
+    </div>
+
+
+    <div class="position-absolute bottom-0">
+      <div class="col-md-4 col-md-offset-3">
+
+
+        <div id="mapId2">
+          <script>
+
+
+
+            //  initialize the map. 
+            // setView method: Sets the view of the map (geographical center and zoom) with the given animation options.
+
+            // setView( <LatLng> center, <Number> zoom?, <zoom/pan options> options? )
+
+            // **Rename myFunctionHolder**
+            var myFunctionHolder = {};
+
+            myFunctionHolder.addPopups = function (feature, layer) {
+              //this if statement used to check whether the feature has a property named "Location"
+              if (feature.properties && feature.properties.Location) {
+                layer.bindPopup(feature.properties.Location);
+              }
+            }
+
+            //declaring function pointToCircle
+            myFunctionHolder.pointToCircle = function (feature, latlng) {
+              var geojsonMarkerOptions = {
+                radius: 8,
+                //fillColor: "#F46B06",
+                fillColor: "yellow",
+                color: "black",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+              };
+              var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
+              return circleMarker;
+            }
+            window.onload = function () {
+              var mapObject = L.map('mapId2').setView([35.1065740, -106.6294404], 10);
+
+              //replace the code below from the Plain JavaScript from the map style you choose
+              //at http://leaflet-extras.github.io/leaflet-providers/preview/
+
+              var baseMap = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
+                maxZoom: 18,
+                attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+              });
+
+              //change the varialbe "OpenTopoMap" according to the map style you choose
+              //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
+              baseMap.addTo(mapObject);
+              var cfg = {
+                radius: .005,
+                maxOpacity: .8,
+                scaleRadius: true,
+                useLocalExtrema: true,
+                latField: 'lat',
+                lngField: 'lng',
+                storeName: 'value',
+
+              };
+              var heatmapLayer = new HeatmapOverlay(cfg);
+              heatmapLayer.setData(storeLocator);
+              mapObject.addLayer(heatmapLayer);
+
+
+              // bikeThefts is the variable name we defined in Bike_Thefts_2011.js file. 
+              var storesLayerGroup = L.geoJSON(storeLoc, {
+                onEachFeature: myFunctionHolder.addpopups,
+                pointToLayer: myFunctionHolder.pointToCircle
+              });
+              var clusters = L.markerClusterGroup();
+              clusters.addLayer(storesLayerGroup);
+              mapObject.addLayer(clusters);
+
+              mapObject.addLayer(storesLayerGroup);
+            };
+
+            // mapObject.fitBounds(bikesLayerGroup.getBounds());
+            // };
+          </script>
+        </div>
+      </div>
 </body>
+
 </html>
