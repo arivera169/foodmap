@@ -12,6 +12,11 @@
   <link rel="stylesheet" href="bootstrap.min.css" />
   <link rel="stylesheet" href="MarkerCluster.css" />
   <link rel="stylesheet" href="MarkerCluster.Default.css" />
+  <!-- added code for uptappd -->
+  <link rel="stylesheet" type="text/css" href="dc.css">
+  <link rel="stylesheet" type="text/css" href="leaflet_Crossfilter.css">
+  <link rel="stylesheet" type="text/css" href="bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="main.css">
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="bootstrap.min.js"></script>
@@ -20,9 +25,15 @@
   <script src="heatmap.js"></script>
   <script src="leaflet-heatmap.js"></script>
   <script src="heatmap-data.js"></script>
-  <script src="Stores_Choro.js"></script> 
+  <script src="Stores_Choro.js"></script>
   <script src="leaflet.markercluster.js"></script>
-  <script src="loadcensustract.js"></script>
+  <!-- <script src="loadcensustract.js"></script> -->
+  <!-- added code for untappd -->
+  <script type="text/javascript" src="d3.js"></script>
+  <script type="text/javascript" src="crossfilter.js"></script>
+  <script type="text/javascript" src="dc.js"></script>
+  <script type="text/javascript" src="leaflet_Crossfilter.js"></script>
+  <script type="text/javascript" src="underscore-min.js"></script>
 </head>
 <header> Food Access Map</header>
 
@@ -52,7 +63,37 @@
               </div>
               <div class="modal-body">
                 <!-- add text to apper in modal here in paragraph area -->
-                <p></p>
+                <p> <b>About the project</b>
+                  Our project goal is to work with food access data, there are several viable datasets that are available to the public via the USDA which includes data that is broken down by census tract and income level which we have elected to use. There are several popular methodologies used to determine food access. The most common method used to determine food access is distance away from grocery stores with different thresholds based on rural and urban populations. 
+                  However,
+                  methodologies used to measure food access that only consider grocery stores
+                  don’t provide a full picture of food access especially in places where
+                  alternatives such as local food markets, community supported agriculture (CSA),
+                  and local farming operations exist. 
+                  Understanding
+                  the demographics of different populations is also essential to understanding
+                  how food access affects different localities, elderly people may face different
+                  barriers to access than younger populations, low income and other factors like
+                  race can compound and affect people's health outcomes. Our interactive map will
+                  combine various metrics to develop a comprehensive interactive map on food
+                  access that depicts the correlation between food access and other social
+                  outcomes.
+                   <br>
+                  About the People:
+                  <b>Developers</b>
+                  <br>Amber Rivera <a href="https://github.com/arivera169/arivera169.github.io"> Amber's Website</a>  <br> 	Jacob White <a href="https://github.com/JacobWhite3/JacobWhite3.github.io"> Jacob's Website</a> <br>  	Carl Sanfilipo <a href="https://github.com/CarlSanfilipo/CarlSanfilipo.github.io"> Carl's Website</a>
+                   <br>
+                  <b>Data sources:</b>
+                  <br><a href="https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/">https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/ </a>
+                  <br><a href="https://www.ers.usda.gov/publications/pub-details/?pubid=104157"> https://www.ers.usda.gov/publications/pub-details/?pubid=104157</a>
+                  <br><a href="https://www.ers.usda.gov/data-products/food-environment-atlas.aspx"> https://www.ers.usda.gov/data-products/food-environment-atlas.aspx</a>
+                   <br>
+                  <b>Acknowledgements:</b>
+                  <br><a href="https://lipingyang.org/">https://lipingyang.org/</a>
+                  <br><a href="https://ers.usda.gov/data-products/food-access-research-atlas/go-to-the-atlas/">https://ers.usda.gov/data-products/food-access-research-atlas/go-to-the-atlas/</a>
+                  <br><a href="https://nativeland.info/thematic-maps/us-drought-monitor-google-earth-engine/"> https://nativeland.info/thematic-maps/us-drought-monitor-google-earth-engine/</a>
+                  <br><a href="https://nativeland.info/thematic-maps/esri-landsat-explorer/">https://nativeland.info/thematic-maps/esri-landsat-explorer/</a>
+                  </p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -62,7 +103,24 @@
         </div>
       </div>
     </div>
+    <div class="col-md-8 dc-data-count dc-chart col-md-offset-7" id="data-count">
+      <p>Beer History
+        <small>
+          <span class="filter-count"></span> selected out of <span class="total-count"></span> records |
+          <a id="all" href="#">Reset All</a>
+          </span>
+        </small>
+      </p>
+    </div>
   </div>
+  <div class=" col-md-8 col-md-offset-7">
+    <h4>Year <small><a id="year">reset</a></small></h4>
+    <div class="dc-chart" id="chart-ring-year"></div>
+  </div>
+  <h4>Breweries</h4>
+  <!-- <div id="map"></div>
+      </div>
+      </div> -->
 
   <div class="row" class="position-relative">
     <!-- <div class="position-absolute bottom-0" -->
@@ -95,7 +153,7 @@
       </script>
     </div>
 
-
+    <!-- *** add crossfilter here*** -->
     <div class="position-absolute bottom-0">
       <div class="col-md-4 col-md-offset-3">
 
@@ -111,74 +169,233 @@
             // setView( <LatLng> center, <Number> zoom?, <zoom/pan options> options? )
 
             // **Rename myFunctionHolder**
-            var myFunctionHolder = {};
+            // {
+            //   {
+            //     var myFunctionHolder = {};
 
-            myFunctionHolder.addPopups = function (feature, layer) {
-              //this if statement used to check whether the feature has a property named "Location"
-              if (feature.properties && feature.properties.Location) {
-                layer.bindPopup(feature.properties.Location);
-              }
-            }
+            //     myFunctionHolder.addPopups = function (feature, layer) {
+            //       //this if statement used to check whether the feature has a property named "Location"
+            //       if (feature.properties && feature.properties.Location) {
+            //         layer.bindPopup(feature.properties.Location);
+            //       }
+            //     }
 
-            //declaring function pointToCircle
-            myFunctionHolder.pointToCircle = function (feature, latlng) {
-              var geojsonMarkerOptions = {
-                radius: 8,
-                //fillColor: "#F46B06",
-                fillColor: "yellow",
-                color: "black",
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.8
-              };
-              var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
-              return circleMarker;
-            }
-            window.onload = function () {
-              var mapObject = L.map('mapId2').setView([35.1065740, -106.6294404], 10);
+            //     //declaring function pointToCircle
+            //     myFunctionHolder.pointToCircle = function (feature, latlng) {
+            //       var geojsonMarkerOptions = {
+            //         radius: 8,
+            //         //fillColor: "#F46B06",
+            //         fillColor: "yellow",
+            //         color: "black",
+            //         weight: 1,
+            //         opacity: 1,
+            //         fillOpacity: 0.8
+            //       };
+            //       var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
+            //       return circleMarker;
+            //     }
+            //     window.onload = function () {
+            //       var mapObject = L.map('mapId2').setView([35.1065740, -106.6294404], 10);
 
-              //replace the code below from the Plain JavaScript from the map style you choose
-              //at http://leaflet-extras.github.io/leaflet-providers/preview/
+            //       // var breweryMarkers = new L.FeatureGroup();
 
-              var baseMap = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
-                maxZoom: 18,
-                attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+            //       //replace the code below from the Plain JavaScript from the map style you choose
+            //       //at http://leaflet-extras.github.io/leaflet-providers/preview/
+
+            //       var baseMap = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
+            //         maxZoom: 18,
+            //         attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+            //       });
+
+
+
+            //       //change the varialbe "OpenTopoMap" according to the map style you choose
+            //       //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
+            //       baseMap.addTo(mapObject);
+            //       var cfg = {
+            //         radius: .005,
+            //         maxOpacity: .8,
+            //         scaleRadius: true,
+            //         useLocalExtrema: true,
+            //         latField: 'lat',
+            //         lngField: 'lng',
+            //         storeName: 'value',
+
+            //       };
+            //       var heatmapLayer = new HeatmapOverlay(cfg);
+            //       heatmapLayer.setData(storeLocator);
+            //       mapObject.addLayer(heatmapLayer);
+
+
+            //       // bikeThefts is the variable name we defined in Bike_Thefts_2011.js file. 
+            //       var storesLayerGroup = L.geoJSON(storeLoc, {
+            //         onEachFeature: myFunctionHolder.addpopups,
+            //         pointToLayer: myFunctionHolder.pointToCircle
+            //       });
+            //       var clusters = L.markerClusterGroup();
+            //       clusters.addLayer(storesLayerGroup);
+            //       mapObject.addLayer(clusters);
+
+            //       mapObject.addLayer(storesLayerGroup);
+            //     }
+            //   };
+
+            // ***start untapped
+
+
+            var map = L.map('mapId2').setView([35.260310, -106.597695], 10);
+
+            var breweryMarkers = new L.FeatureGroup();
+
+            //replace the code below from the Plain JavaScript from the map style you choose
+            //at http://leaflet-extras.github.io/leaflet-providers/preview/
+
+            var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
+              maxZoom: 8,
+              attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+            });
+
+            //change the varialbe "OpenTopoMap" according to the map style you choose
+            //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
+
+            USGS_USImagery.addTo(map);
+            d3.json('untappd.json', function (error, data) {
+              var beerData = data.response.beers.items;
+              // ***check full date***
+              var fullDateFormat = d3.time.format('%a, %d %b %Y %X %Z');
+              var yearFormat = d3.time.format('%Y');
+              // var monthFormat = d3.time.format('%b');
+              // var dayOfWeekFormat = d3.time.format('%a');
+
+              // normalize/parse data so dc can correctly sort & bin them
+              // I like to think of each "d" as a row in a spreadsheet
+              _.each(beerData, function (d) {
+                d.count = +d.count;
+                // round to nearest 0.25
+                d.rating_score = Math.round(+d.rating_score * 4) / 4;
+                d.beer.rating_score = Math.round(+d.beer.rating_score * 4) / 4;
+                // round to nearest 0.5
+                d.beer.beer_abv = Math.round(+d.beer.beer_abv * 2) / 2;
+                // round to nearest 10
+                d.beer.beer_ibu = Math.floor(+d.beer.beer_ibu / 10) * 10;
+
+                d.first_had_dt = fullDateFormat.parse(d.first_had);
+                d.first_had_year = +yearFormat(d.first_had_dt);
+                // d.first_had_month = monthFormat(d.first_had_dt);
+                // d.first_had_day = dayOfWeekFormat(d.first_had_dt);
               });
 
-              //change the varialbe "OpenTopoMap" according to the map style you choose
-              //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
-              baseMap.addTo(mapObject);
-              var cfg = {
-                radius: .005,
-                maxOpacity: .8,
-                scaleRadius: true,
-                useLocalExtrema: true,
-                latField: 'lat',
-                lngField: 'lng',
-                storeName: 'value',
+              // set crossfilter
+              var ndx = crossfilter(beerData);
 
-              };
-              var heatmapLayer = new HeatmapOverlay(cfg);
-              heatmapLayer.setData(storeLocator);
-              mapObject.addLayer(heatmapLayer);
+              // create dimensions (x-axis values)
+              var yearDim = ndx.dimension(function (d) { return d.first_had_year; }),
+                // dc.pluck: short-hand for same kind of anon. function we used for yearDim
+                // monthDim = ndx.dimension(dc.pluck('first_had_month')),
+                // dayOfWeekDim = ndx.dimension(dc.pluck('first_had_day')),
+                // ratingDim = ndx.dimension(dc.pluck('rating_score')),
+                // commRatingDim = ndx.dimension(function (d) { return d.beer.rating_score; }),
+                // abvDim = ndx.dimension(function (d) { return d.beer.beer_abv; }),
+                // ibuDim = ndx.dimension(function (d) { return d.beer.beer_ibu; }),
+                allDim = ndx.dimension(function (d) { return d; });
 
+              // create groups (y-axis values)
+              var all = ndx.groupAll();
+              var countPerYear = yearDim.group().reduceCount();
+              // countPerMonth = monthDim.group().reduceCount(),
+              // countPerDay = dayOfWeekDim.group().reduceCount(),
+              // countPerRating = ratingDim.group().reduceCount(),
+              // countPerCommRating = commRatingDim.group().reduceCount(),
+              // countPerABV = abvDim.group().reduceCount(),
+              // countPerIBU = ibuDim.group().reduceCount();
 
-              // bikeThefts is the variable name we defined in Bike_Thefts_2011.js file. 
-              var storesLayerGroup = L.geoJSON(storeLoc, {
-                onEachFeature: myFunctionHolder.addpopups,
-                pointToLayer: myFunctionHolder.pointToCircle
+              // specify charts
+              var yearChart = dc.pieChart('#chart-ring-year'),
+                // monthChart = dc.pieChart('#chart-ring-month'),
+                // dayChart = dc.pieChart('#chart-ring-day'),
+                // ratingCountChart = dc.barChart('#chart-rating-count'),
+                // commRatingCountChart = dc.barChart('#chart-community-rating-count'),
+                // abvCountChart = dc.barChart('#chart-abv-count'),
+                // ibuCountChart = dc.barChart('#chart-ibu-count'),
+                dataCount = dc.dataCount('#data-count')
+              dataTable = dc.dataTable('#data-table');
+
+              yearChart
+                .width(150)
+                .height(150)
+                .dimension(yearDim)
+                .group(countPerYear)
+                .innerRadius(20);
+
+              dataCount
+                .dimension(ndx)
+                .group(all);
+
+              dataTable
+                .dimension(allDim)
+                .group(function (d) { return 'dc.js insists on putting a row here so I remove it using JS'; })
+                .size(100)
+                .columns([
+                  function (d) { return d.brewery.brewery_name; },
+                  function (d) { return d.beer.beer_name; },
+                  function (d) { return d.beer.beer_style; },
+                  function (d) { return d.rating_score; },
+                  function (d) { return d.beer.rating_score; },
+                  function (d) { return d.beer.beer_abv; },
+                  function (d) { return d.beer.beer_ibu; }
+                ])
+                .sortBy(dc.pluck('rating_score'))
+                .order(d3.descending)
+                .on('renderlet', function (table) {
+                  // each time table is rendered remove nasty extra row dc.js insists on adding
+                  table.select('tr.dc-table-group').remove();
+
+                  // update map with breweries to match filtered data
+                  breweryMarkers.clearLayers();
+                  _.each(allDim.top(Infinity), function (d) {
+                    var loc = d.brewery.location;
+                    var name = d.brewery.brewery_name;
+                    var marker = L.marker([loc.lat, loc.lng]);
+                    marker.bindPopup("<p>" + name + " " + loc.brewery_city + " " + loc.brewery_state + "</p>");
+                    breweryMarkers.addLayer(marker);
+                  });
+                  map.addLayer(breweryMarkers);
+                  map.fitBounds(breweryMarkers.getBounds());
+                });
+
+              // register handlers
+              d3.selectAll('a#all').on('click', function () {
+                dc.filterAll();
+                dc.renderAll();
               });
-              var clusters = L.markerClusterGroup();
-              clusters.addLayer(storesLayerGroup);
-              mapObject.addLayer(clusters);
 
-              mapObject.addLayer(storesLayerGroup);
-            };
-            // mapObject.fitBounds(bikesLayerGroup.getBounds());
-            // };
+              d3.selectAll('a#year').on('click', function () {
+                yearChart.filterAll();
+                dc.redrawAll();
+              });
+
+              d3.selectAll('a#month').on('click', function () {
+                monthChart.filterAll();
+                dc.redrawAll();
+              });
+
+              d3.selectAll('a#day').on('click', function () {
+                dayChart.filterAll();
+                dc.redrawAll();
+              });
+
+              // showtime!
+              dc.renderAll();
+
+            });
+            ;
           </script>
         </div>
       </div>
+    </div>
+  </div>
+
+  </script>
 </body>
 
 </html>
