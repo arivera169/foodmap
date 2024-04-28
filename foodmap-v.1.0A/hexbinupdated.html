@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Leaflet map!</title>
+  <link rel="stylesheet" href="CSS_Styles.css"><!-- added code for heatmap -->
+  <link rel="stylesheet" href="leaflet.css"><!-- delete 1.6 version of leaflet -->
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="MarkerCluster.css">
+  <link rel="stylesheet" href="MarkerCluster.Default.css"><!-- added code for uptappd -->
+  <link rel="stylesheet" type="text/css" href="dc.css">
+  <link rel="stylesheet" type="text/css" href="leaflet_Crossfilter.css">
+  <link rel="stylesheet" type="text/css" href="bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="main.css">
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="bootstrap.min.js"></script><!-- added code for heatmap -->
+
+  <script src="leaflet.js"></script>
+  <script src="heatmap.js"></script>
+  <script src="leaflet-heatmap.js"></script>
+  <script src="heatmap-data.js"></script>
+  <script src="Stores_Choro.js"></script>
+  <script src="leaflet.markercluster.js"></script><!-- <script src="loadcensustract.js"></script> -->
+  <!-- added code for untappd -->
+
+  <script type="text/javascript" src="d3.js"></script>
+  <script type="text/javascript" src="crossfilter.js"></script>
+  <script type="text/javascript" src="dc.js"></script>
+  <script type="text/javascript" src="leaflet_Crossfilter.js"></script>
+  <script type="text/javascript" src="underscore-min.js"></script>
+
+ <!-- Use a script tag to define a JavaScript variable with GeoJSON data -->
+<script id="censustracts-data" type="application/json" src="censustracts.geojson"></script>
+
+</head>
+<body>
+  <header>
+    Food Access Map
+  </header>
+  <div id="mapId" style="width: 100%; height: 600px;"></div>
+  <script>
+   /* initialize the map. 
+        setView method: Sets the view of the map (geographical center and zoom) with the given animation options.
+      
+        setView( <LatLng> center, <Number> zoom?, <zoom/pan options> options? )
+        */
+
+        var map = L.map('mapId').setView([35.260310, -106.597695], 16);
+
+        //replace the code below from the Plain JavaScript from the map style you choose
+        //at http://leaflet-extras.github.io/leaflet-providers/preview/
+
+        var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
+          maxZoom: 8,
+          attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey<\/a>'
+        });
+
+        //change the varialbe "OpenTopoMap" according to the map style you choose
+        //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
+        USGS_USImagery.addTo(map);
+    
+    // Define options for GeoJSON layer
+    var geojsonMarkerOptions = {
+      radius: 8,
+      fillColor: "#ff7800",
+      color: "#000",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.8
+    };
+    
+    // Define function to bind popup to each feature
+    function onEachFeature(feature, layer) {
+      if (feature.properties && feature.properties.popupContent) {
+        layer.bindPopup(feature.properties.popupContent);
+      }
+    }
+ 
+var censustracts = GeoJSON.parse(document.getElementById('censustracts.geoJSON').innerHTML);
+// Fetch the GeoJSON file
+fetch('censustracts.geojson')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json(); 
+  })
+  .then(data => {
+ 
+    var censustracts = data;
+  
+    console.log(censustracts);
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+
+    // Add GeoJSON layer to the map
+    L.geoJSON(censustracts, {
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, geojsonMarkerOptions);
+      },
+      onEachFeature: onEachFeature // Call onEachFeature function for each feature
+    }).addTo(map);
+  </script>
+</body>
+</html>
