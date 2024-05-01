@@ -28,6 +28,7 @@
   <script src="Stores_Choro.js"></script>
   <script src="leaflet.markercluster.js"></script>
   <!-- <script src="loadcensustract.js"></script> -->
+    <script src="censusdata.js"></script>
   <!-- added code for untappd -->
 
    <!-- <script type="text/javascript" src="d3_3.5.5.js"></script>
@@ -392,6 +393,14 @@
 
             // });
             // ;
+            if (window.censusData) {
+        console.log("Adding GeoJSON data to map...");
+        L.geoJSON(window.censusData).addTo(foodaccessmap);
+        console.log("GeoJSON data added to map successfully.");
+      } else {
+        console.error('Census data not loaded');
+      }
+    })
           </script>
         </div>
       </div>
