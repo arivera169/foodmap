@@ -277,7 +277,7 @@
             // *** onload sequence
             // window.onload = function () {
 
-              d3.csv('Storesfiltered2.csv', function (error, data) {
+            d3.csv('Storesfiltered2.csv', function (error, data) {
 
 
 //  *** tailored to project stop 
@@ -531,55 +531,13 @@
             var county = d["County"];
             var storeType = d["Type_1"];
 
-            // Types of stores Bakery Specialty, Combination Grocery/Other, Farmers' Market, 
-            //  Food Buying Co-op, Fruits/Veg Specialty, Large Grocery Store,
-            //   Meat/Poultry Specialty, Medium Grocery Store, Small Grocery Store, 
-            //   Super Store, Supermarket, Unknown, Wholesaler
-
-            if (storeType == "Bakery Specialty") {
-                                fillColor_Var = "#fb9a99";
-                            } else if (storeType == "Combination Grocery/Other") {
-                                fillColor_Var = "#e31a1c";
-                            } else if (storeType == "Farmers' Market") {
-                                fillColor_Var = "#fdbf6f";
-                              } else if (storeType == "Food Buying Co-op") {
-                                fillColor_Var = "#ff7f00";
-                            } else if (storeType == "Fruits/Veg Specialty") {
-                                fillColor_Var = "#cab2d6";
-                            }  else if (storeType == " Large Grocery Store") {
-                                fillColor_Var = "#0096FF";
-                            } else if (storeType == "Meat/Poultry Specialty") {
-                                fillColor_Var = "#40E0D0";
-                            }
-                           else if (storeType == "Medium Grocery Store") {
-                                fillColor_Var = "#43a2ca";
-                            } else if (storeType == "Small Grocery Store") {
-                                fillColor_Var = "#0868ac";
-                              } else if (storeType == "Super Store") {
-                                fillColor_Var = "#7bccc4";
-                            } else if (storeType == "Supermarket") {
-                                fillColor_Var = "#bae4bc";
-                            }  else if (storeType == "Unknown") {
-                                fillColor_Var = "#0096FF";
-                            } else if (storeType == "Wholesaler") {
-                                fillColor_Var = "#f0f9e8";
-                            }
-                             else {
-                                fillColor_Var = "#B9C0C3";
-                            }
-                            
-
-                           
-
-
-
-
             // ***review for correct format to populate cordinates
 
 
             var marker = L.circleMarker([latitude, longitude], { 
             radius: 8,
-            fillColor: fillColor_Var,
+            fillColor: "#F46B06",
+            // fillColor: "yellow",
             color: "black",
             weight: 1,
             opacity: 1,
@@ -624,9 +582,8 @@
 
       // showtime!
       dc.renderAll();
-
+      
     });
-
 
             // }
               // *** onload sequence end
