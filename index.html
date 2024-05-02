@@ -29,6 +29,7 @@
 
 
   <!-- <script src="loadcensustract.js"></script> -->
+    <script src="censusdata.js"></script>
   <!-- added code for untappd -->
 
    <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3_3.5.5.js"></script>
@@ -631,6 +632,15 @@
             // }
               // *** onload sequence end
     
+            // });
+            // ;
+            if (window.censusData) {
+        console.log("Adding GeoJSON data to map...");
+        L.geoJSON(window.censusData).addTo(foodaccessmap);
+        console.log("GeoJSON data added to map successfully.");
+      } else {
+        console.error('Census data not loaded');
+      }
           </script>
         </div>
       </div>
