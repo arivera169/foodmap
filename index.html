@@ -28,8 +28,9 @@
   <script src="leaflet.markercluster.js"></script> -->
 
 
-  <!-- <script src="loadcensustract.js"></script> -->
-    <script src="censusdata.js"></script>
+  <!-- <script src="loadcensustract.js"></script><script src="censusdata.js"></script>
+-->
+     <script src="censustracts.geojson"></script>
   <!-- added code for untappd -->
 
    <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3_3.5.5.js"></script>
@@ -634,12 +635,15 @@
     
             // });
             // ;
-            if (window.censusData) {
-        console.log("Adding GeoJSON data to map...");
-        L.geoJSON(window.censusData).addTo(foodaccessmap);
-        console.log("GeoJSON data added to map successfully.");
-      } else {
-        console.error('Census data not loaded');
+            //Ambercode
+            var myLayer = L.geoJSON().addTo(map);
+myLayer.addData(censustracts);
+          if (window.censustracts) {
+       console.log("Adding GeoJSON data to map...");
+      L.geoJSON(window.censustracts).addTo(foodaccessmap);
+       console.log("GeoJSON data added to map successfully.");
+     } else {
+      console.error('Census data not loaded');
       }
           </script>
         </div>
