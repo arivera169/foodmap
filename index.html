@@ -38,11 +38,11 @@
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc_2.0.0-beta.11.js"></script>
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/leaflet_Crossfilter.js"></script>
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/underscore-min_1.8.3.js"></script>
-
+  <script type="text/javascript" src=""></script>
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="JS_CSS_downloaded_libraries/bootstrap.min_v3.4.1.js"></script>
-
+<script src="JS_CSS_downloaded_libraries/leaflet.ajax.min.js"></script>
   <!-- ***remove -->
   <!-- <script type="text/javascript" src="bivariatehexbin.js"></script> -->
 
@@ -635,26 +635,13 @@
     
             // });
             // ;
-            //Ambercode
-            var myLayer = L.geoJSON().addTo(map);
-myLayer.addData(censustracts);
-          if (window.censustracts) {
-       console.log("Adding GeoJSON data to map...");
-      L.geoJSON(window.censustracts).addTo(foodaccessmap);
-       console.log("GeoJSON data added to map successfully.");
-     } else {
-      console.error('Census data not loaded');
-      }
-          </script>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="api-map" style="background-color: #bbdefb;"></div>
-<div class="p-3 border-top">
-  <h6>Population:</h6>
-  <ul id="api-legend" class="vector-map-legend"></ul>
-</div>
+         // Embed GeoJSON data directly
+    document.addEventListener('DOMContentLoaded', function() {
+      var censustractsresponse = fetch("censustracts.geoJSON");
+      var geojsonData = censustractsresponse.json();
+      //response.json(geojsonData)
+      L.geoJSON(geojsonData).addTo(map);
+    });
   </script>
 </body>
 
