@@ -30,7 +30,7 @@
 
   <!-- <script src="loadcensustract.js"></script><script src="censusdata.js"></script>
 -->
-     <script src="censustracts.geojson"></script>
+
   <!-- added code for untappd -->
 
    <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3_3.5.5.js"></script>
@@ -636,9 +636,15 @@
             // });
             // ;
          // Embed GeoJSON data directly
-    document.addEventListener('DOMContentLoaded', function() {
-      var censustractsresponse = fetch("censustracts.geoJSON");
-      var geojsonData = censustractsresponse.json();
+    document.addEventListener('DOMContentLoaded', async function() {
+      var geojsonData = await fetch("censustracts.geoJSON").
+      then(response => {
+        return response.json();
+      }).
+      then(data => {
+        return data;
+      })
+
       //response.json(geojsonData)
       L.geoJSON(geojsonData).addTo(map);
     });
