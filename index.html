@@ -1,3 +1,4 @@
+User
 <!DOCTYPE html>
 <html>
 
@@ -116,7 +117,7 @@
       </div>
     </div>
     <div class="col-md-8 dc-data-count dc-chart col-md-offset-7" id="data-count">
-      <p>Beer History
+      <p>Grocery Stores
         <small>
           <span class="filter-count"></span> selected out of <span class="total-count"></span> records |
           <a id="all" href="#">Reset All</a>
@@ -129,7 +130,6 @@
     <h4>Year <small><a id="year">reset</a></small></h4>
     <div class="dc-chart" id="chart-ring-year"></div>
   </div>
-  <h4>Breweries</h4>
   <!-- <div id="map"></div>
       </div>
       </div> -->
@@ -147,22 +147,7 @@
         setView method: Sets the view of the map (geographical center and zoom) with the given animation options.
       
         setView( <LatLng> center, <Number> zoom?, <zoom/pan options> options? )
-        */
-
-        var map = L.map('mapId').setView([35.260310, -106.597695], 16);
-        
-
-        //replace the code below from the Plain JavaScript from the map style you choose
-        //at http://leaflet-extras.github.io/leaflet-providers/preview/
-
-        var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
-          maxZoom: 8,
-          attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
-        });
-
-        //change the varialbe "OpenTopoMap" according to the map style you choose
-        //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
-        USGS_USImagery.addTo(map);
+       
       </script>
     </div>
 
@@ -173,90 +158,6 @@
 
         <div id="mapId2">
           <script>
-
-
-
-            //  initialize the map. 
-            // setView method: Sets the view of the map (geographical center and zoom) with the given animation options.
-
-            // setView( <LatLng> center, <Number> zoom?, <zoom/pan options> options? )
-
-            // **Rename myFunctionHolder**
-            
-            // *** commented out heatmap
-              // {
-              //   var myFunctionHolder = {};
-
-              //   myFunctionHolder.addPopups = function (feature, layer) {
-              //     //this if statement used to check whether the feature has a property named "Location"
-              //     if (feature.properties && feature.properties.Location) {
-              //       layer.bindPopup(feature.properties.Location);
-              //     }
-              //   }
-
-              //   //declaring function pointToCircle
-              //   myFunctionHolder.pointToCircle = function (feature, latlng) {
-              //     var geojsonMarkerOptions = {
-              //       radius: 8,
-              //       //fillColor: "#F46B06",
-              //       fillColor: "yellow",
-              //       color: "black",
-              //       weight: 1,
-              //       opacity: 1,
-              //       fillOpacity: 0.8
-              //     };
-              //     var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
-              //     return circleMarker;
-              //   }
-              //   window.onload = function () {
-              //     var mapObject = L.map('mapId2').setView([35.1065740, -106.6294404], 10);
-
-              //     // var breweryMarkers = new L.FeatureGroup();
-
-              //     //replace the code below from the Plain JavaScript from the map style you choose
-              //     //at http://leaflet-extras.github.io/leaflet-providers/preview/
-
-              //     var baseMap = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
-              //       maxZoom: 18,
-              //       attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
-              //     });
-
-
-
-                  //change the varialbe "OpenTopoMap" according to the map style you choose
-                  //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
-              
-              // *** commented out heatmap
-                  //     baseMap.addTo(mapObject);
-              //     var cfg = {
-              //       radius: .005,
-              //       maxOpacity: .8,
-              //       scaleRadius: true,
-              //       useLocalExtrema: true,
-              //       latField: 'lat',
-              //       lngField: 'lng',
-              //       storeName: 'value',
-
-              //     };
-              //     var heatmapLayer = new HeatmapOverlay(cfg);
-              //     heatmapLayer.setData(storeLocator);
-              //     mapObject.addLayer(heatmapLayer);
-
-
-              //     // bikeThefts is the variable name we defined in Bike_Thefts_2011.js file. 
-              //     var storesLayerGroup = L.geoJSON(storeLoc, {
-              //       onEachFeature: myFunctionHolder.addpopups,
-              //       pointToLayer: myFunctionHolder.pointToCircle
-              //     });
-              //     var clusters = L.markerClusterGroup();
-              //     clusters.addLayer(storesLayerGroup);
-              //     mapObject.addLayer(clusters);
-
-              //     mapObject.addLayer(storesLayerGroup);
-              //   }
-              // };
-
-            // ***start untapped
 
 
             var map = L.map('mapId2').setView([35.260310, -106.597695], 10);
@@ -279,7 +180,7 @@
             // *** onload sequence
             // window.onload = function () {
 
-              d3.csv('Storesfiltered2.csv', function (error, data) {
+              d3.csv('Storesfiltered.csv', function (error, data) {
 
 
 //  *** tailored to project stop 
@@ -652,3 +553,4 @@
 </body>
 
 </html>
+
