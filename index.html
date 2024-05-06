@@ -1,11 +1,10 @@
-User
 <!DOCTYPE html>
 <html>
 
 <head>
   <meta charset=“UTF-8”>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Leaflet map!</title>
+  <title>Foodmap</title>
 
   <!-- added code for heatmap -->
   <!-- <link rel="stylesheet" href="styles_leaflet_heatmap.css"> -->
@@ -15,11 +14,14 @@ User
   <link rel="stylesheet" href="MarkerCluster.Default.css" /> -->
   <!-- added code for uptappd -->
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/styles_dc_untappd.css">
-  <!-- <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/styles_leaflet_untappd.css"> -->
+  <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/styles_leaflet_untappd.css">
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/leaflet_Crossfilter.css">
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/bootstrap_v3.3.5.css">
   <link rel="stylesheet" href="myCSS_styleFiles/CSS_Styles.css">
-  <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/styles_main_untappd.css">
+
+  <!-- *** comment out -->
+  <!-- <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/styles_main_untappd.css"> -->
+  
   <!-- added code for heatmap -->
   <!-- <script src="leaflet_1.8.0.js"></script>
   <script src="heatmap_v2.0.5.js"></script>
@@ -34,16 +36,16 @@ User
 
   <!-- added code for untappd -->
 
-   <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3_3.5.5.js"></script>
+  <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3_3.5.5.js"></script>
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/crossfilter_v1.3.11.js"></script>
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc_2.0.0-beta.11.js"></script>
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/leaflet_Crossfilter.js"></script>
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/underscore-min_1.8.3.js"></script>
-  <script type="text/javascript" src=""></script>
+
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="JS_CSS_downloaded_libraries/bootstrap.min_v3.4.1.js"></script>
-<script src="JS_CSS_downloaded_libraries/leaflet.ajax.min.js"></script>
+  <script src="JS_CSS_downloaded_libraries/leaflet.ajax.min.js"></script>
   <!-- ***remove -->
   <!-- <script type="text/javascript" src="bivariatehexbin.js"></script> -->
 
@@ -77,12 +79,16 @@ User
               <div class="modal-body">
                 <!-- add text to apper in modal here in paragraph area -->
                 <p> <b>About the project</b>
-                  Our project goal is to work with food access data, there are several viable datasets that are available to the public via the USDA which includes data that is broken down by census tract and income level which we have elected to use. There are several popular methodologies used to determine food access. The most common method used to determine food access is distance away from grocery stores with different thresholds based on rural and urban populations. 
+                  Our project goal is to work with food access data, there are several viable datasets that are
+                  available to the public via the USDA which includes data that is broken down by census tract and
+                  income level which we have elected to use. There are several popular methodologies used to determine
+                  food access. The most common method used to determine food access is distance away from grocery stores
+                  with different thresholds based on rural and urban populations.
                   However,
                   methodologies used to measure food access that only consider grocery stores
                   don’t provide a full picture of food access especially in places where
                   alternatives such as local food markets, community supported agriculture (CSA),
-                  and local farming operations exist. 
+                  and local farming operations exist.
                   Understanding
                   the demographics of different populations is also essential to understanding
                   how food access affects different localities, elderly people may face different
@@ -91,22 +97,33 @@ User
                   combine various metrics to develop a comprehensive interactive map on food
                   access that depicts the correlation between food access and other social
                   outcomes.
-                   <br>
+                  <br>
                   About the People:
                   <b>Developers</b>
-                  <br>Amber Rivera <a href="https://github.com/arivera169/arivera169.github.io"> Amber's Website</a>  <br> 	Jacob White <a href="https://github.com/JacobWhite3/JacobWhite3.github.io"> Jacob's Website</a> <br>  	Carl Sanfilipo <a href="https://github.com/CarlSanfilipo/CarlSanfilipo.github.io"> Carl's Website</a>
-                   <br>
+                  <br>Amber Rivera <a href="https://github.com/arivera169/arivera169.github.io"> Amber's Website</a>
+                  <br> Jacob White <a href="https://github.com/JacobWhite3/JacobWhite3.github.io"> Jacob's Website</a>
+                  <br> Carl Sanfilipo <a href="https://github.com/CarlSanfilipo/CarlSanfilipo.github.io"> Carl's
+                    Website</a>
+                  <br>
                   <b>Data sources:</b>
-                  <br><a href="https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/">https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/ </a>
-                  <br><a href="https://www.ers.usda.gov/publications/pub-details/?pubid=104157"> https://www.ers.usda.gov/publications/pub-details/?pubid=104157</a>
-                  <br><a href="https://www.ers.usda.gov/data-products/food-environment-atlas.aspx"> https://www.ers.usda.gov/data-products/food-environment-atlas.aspx</a>
-                   <br>
+                  <!-- *** update -->
+                  <br><a
+                    href="https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/">https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/
+                  </a>
+                  <br><a href="https://www.ers.usda.gov/publications/pub-details/?pubid=104157">
+                    https://www.ers.usda.gov/publications/pub-details/?pubid=104157</a>
+                  <br><a href="https://www.ers.usda.gov/data-products/food-environment-atlas.aspx">
+                    https://www.ers.usda.gov/data-products/food-environment-atlas.aspx</a>
+                  <br>
                   <b>Acknowledgements:</b>
                   <br><a href="https://lipingyang.org/">https://lipingyang.org/</a>
-                  <br><a href="https://ers.usda.gov/data-products/food-access-research-atlas/go-to-the-atlas/">https://ers.usda.gov/data-products/food-access-research-atlas/go-to-the-atlas/</a>
-                  <br><a href="https://nativeland.info/thematic-maps/us-drought-monitor-google-earth-engine/"> https://nativeland.info/thematic-maps/us-drought-monitor-google-earth-engine/</a>
-                  <br><a href="https://nativeland.info/thematic-maps/esri-landsat-explorer/">https://nativeland.info/thematic-maps/esri-landsat-explorer/</a>
-                  </p>
+                  <br><a
+                    href="https://ers.usda.gov/data-products/food-access-research-atlas/go-to-the-atlas/">https://ers.usda.gov/data-products/food-access-research-atlas/go-to-the-atlas/</a>
+                  <br><a href="https://nativeland.info/thematic-maps/us-drought-monitor-google-earth-engine/">
+                    https://nativeland.info/thematic-maps/us-drought-monitor-google-earth-engine/</a>
+                  <br><a
+                    href="https://nativeland.info/thematic-maps/esri-landsat-explorer/">https://nativeland.info/thematic-maps/esri-landsat-explorer/</a>
+                </p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -116,7 +133,7 @@ User
         </div>
       </div>
     </div>
-    <div class="col-md-8 dc-data-count dc-chart col-md-offset-7" id="data-count">
+    <div class="row" class="col-md-8 dc-data-count dc-chart col-md-offset-7" id="data-count">
       <p>Grocery Stores
         <small>
           <span class="filter-count"></span> selected out of <span class="total-count"></span> records |
@@ -126,16 +143,34 @@ User
       </p>
     </div>
   </div>
-  <div class=" col-md-8 col-md-offset-7">
-    <h4>Year <small><a id="year">reset</a></small></h4>
-    <div class="dc-chart" id="chart-ring-year"></div>
+  <div class="row">
+    <div class="col-md-4 col-md-offset-3">
+      <h4>Store <small><a id="year">reset</a></small></h4>
+      
+      <div class="col-md-8 col-md-offset-7"></div>
+      <h4>County <small><a id="year">reset</a></small></h4>
+    </div>
+    </div>
+    <!-- *** troubleshooted line 55 code add to get working chart chart-ring-store not year -->
+
+    <div class="row">
+    <div class="col-xs-2 pie-chart">
+    
+
+    <!-- added another chart for Counties -->
+
+
+    <!-- *** troubleshoot line 55 code add to get working chart chart-ring-store not year -->
+
+    <div class="col-xs-2 pie-chart col-xs-offset-2"></div>
+    <div class="dc-chart" id="chart-ring-county"></div>
   </div>
   <!-- <div id="map"></div>
       </div>
       </div> -->
 
-  <div class="row" class="position-relative">
-    <!-- <div class="position-absolute bottom-0" -->
+  <!-- <div class="row" class="position-relative"> -->
+  <!-- <div class="position-absolute bottom-0"
     <div class="col-md-4">
       <div id="mapId"></div>
 
@@ -149,408 +184,425 @@ User
         setView( <LatLng> center, <Number> zoom?, <zoom/pan options> options? )
        
       </script>
-    </div>
+    </div> -->
 
-    <!-- *** add crossfilter here*** -->
-    <div class="position-absolute bottom-0">
-      <div class="col-md-4 col-md-offset-3">
-
-
-        <div id="mapId2">
-          <script>
+  <!-- *** add crossfilter here*** -->
+  <div class="row" class="position-absolute bottom-0">
+    <div class="col-md-8 col-md-offset-2">
 
 
-            var map = L.map('mapId2').setView([35.260310, -106.597695], 10);
+      <div id="mapId2"></div>
+        <script>
 
-            var breweryMarkers = new L.FeatureGroup();
 
-            //replace the code below from the Plain JavaScript from the map style you choose
-            //at http://leaflet-extras.github.io/leaflet-providers/preview/
+          var map = L.map('mapId2').setView([35.260310, -106.597695], 10);
 
-            var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
-              maxZoom: 8,
-              attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+          var storeMarkers = new L.FeatureGroup();
+
+          //replace the code below from the Plain JavaScript from the map style you choose
+          //at http://leaflet-extras.github.io/leaflet-providers/preview/
+
+          var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 8,
+            attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+          });
+
+          // //change the varialbe "OpenTopoMap" according to the map style you choose
+          // //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
+
+          USGS_USImagery.addTo(map);
+
+          // *** onload sequence
+          // window.onload = function () {
+
+            d3.csv('Storesfiltered.csv', function (error, data) {
+
+            //  *** tailored to project stop 
+
+            // d3.json('Storesfiltered2.geojson', function (error, data) {
+            // var beerData = data.response.beers.items;
+            // ***check full date***
+
+            //  *** start process
+
+
+
+            // var fullDateFormat = d3.time.format('%a, %d %b %Y %X %Z');
+            // var yearFormat = d3.time.format('%Y');
+            // var monthFormat = d3.time.format('%b');
+            // var dayOfWeekFormat = d3.time.format('%a');
+
+            // normalize/parse data so dc can correctly sort & bin them
+            // I like to think of each "d" as a row in a spreadsheet
+            // _.each(beerData, function (d) {
+            //   d.count = +d.count;
+            //   // round to nearest 0.25
+            //   // d.rating_score = Math.round(+d.rating_score * 4) / 4;
+            //   // d.beer.rating_score = Math.round(+d.beer.rating_score * 4) / 4;
+            //   // // round to nearest 0.5
+            //   // d.beer.beer_abv = Math.round(+d.beer.beer_abv * 2) / 2;
+            //   // // round to nearest 10
+            //   // d.beer.beer_ibu = Math.floor(+d.beer.beer_ibu / 10) * 10;
+
+            //   d.first_had_dt = fullDateFormat.parse(d.first_had);
+            //   d.first_had_year = +yearFormat(d.first_had_dt);
+            //   // d.first_had_month = monthFormat(d.first_had_dt);
+            // d.first_had_day = dayOfWeekFormat(d.first_had_dt);
+            // });
+
+            // set crossfilter
+            var ndx = crossfilter(data);
+
+            // create dimensions (x-axis values)
+
+            // *** altered code to specific field adapted to stores
+
+
+            var storeDim = ndx.dimension(function (d) { return d["City"]; });
+
+            var countyDim = ndx.dimension(function (d) { return d["County"]; });
+
+            // dc.pluck: short-hand for same kind of anon. function we used for yearDim
+            // monthDim = ndx.dimension(dc.pluck('first_had_month')),
+            // dayOfWeekDim = ndx.dimension(dc.pluck('first_had_day')),
+            // ratingDim = ndx.dimension(dc.pluck('rating_score')),
+            // commRatingDim = ndx.dimension(function (d) { return d.beer.rating_score; }),
+            // abvDim = ndx.dimension(function (d) { return d.beer.beer_abv; }),
+            // ibuDim = ndx.dimension(function (d) { return d.beer.beer_ibu; }),
+            allDim = ndx.dimension(function (d) { return d; });
+
+            // create groups (y-axis values)
+            var all = ndx.groupAll();
+            // var countPerYear = yearDim.group().reduceCount();
+            // countPerMonth = monthDim.group().reduceCount(),
+            // countPerDay = dayOfWeekDim.group().reduceCount(),
+            // countPerRating = ratingDim.group().reduceCount(),
+            // countPerCommRating = commRatingDim.group().reduceCount(),
+            // countPerABV = abvDim.group().reduceCount(),
+            // countPerIBU = ibuDim.group().reduceCount();
+
+            // ***tailored code 
+
+            var storeGroup = storeDim.group().reduceCount();
+
+
+            var countyGroup = countyDim.group().reduceCount();
+
+            // specify charts
+
+            var storeChart = dc.pieChart('#chart-ring-store');
+
+
+            var countyChart = dc.pieChart('#chart-ring-county');
+            // var yearChart = dc.pieChart('#chart-ring-year'),
+
+            // ***tailored to project 
+
+
+
+            // monthChart = dc.pieChart('#chart-ring-month'),
+            // dayChart = dc.pieChart('#chart-ring-day'),
+            // ratingCountChart = dc.barChart('#chart-rating-count'),
+            // commRatingCountChart = dc.barChart('#chart-community-rating-count'),
+            // abvCountChart = dc.barChart('#chart-abv-count'),
+            // ibuCountChart = dc.barChart('#chart-ibu-count'),
+            dataCount = dc.dataCount('#data-count');
+              dataTable = dc.dataTable('#data-table');
+
+            // yearChart
+            //   .width(150)
+            //   .height(150)
+            //   .dimension(yearDim)
+            //   .group(countPerYear)
+            //   .innerRadius(20);
+
+            // *** tailored to project 
+
+
+            storeChart
+              .width(150)
+              .height(150)
+              .dimension(storeDim)
+              .group(storeGroup)
+              .innerRadius(20);
+
+            countyChart
+              .width(150)
+              .height(150)
+              .dimension(countyDim)
+              .group(countyGroup)
+              .innerRadius(20);
+
+            // monthChart
+            //   .width(150)
+            //   .height(150)
+            //   .dimension(monthDim)
+            //   .group(countPerMonth)
+            //   .innerRadius(20)
+            //   .ordering(function (d) {
+            //     var order = {
+            //       'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4,
+            //       'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8,
+            //       'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
+            //     };
+            //     return order[d.key];
+            //   });
+
+            // dayChart
+            //   .width(150)
+            //   .height(150)
+            //   .dimension(dayOfWeekDim)
+            //   .group(countPerDay)
+            //   .innerRadius(20)
+            //   .ordering(function (d) {
+            //     var order = {
+            //       'Mon': 0, 'Tue': 1, 'Wed': 2, 'Thu': 3,
+            //       'Fri': 4, 'Sat': 5, 'Sun': 6
+            //     }
+            //     return order[d.key];
+            //   }
+            //   );
+
+            // ratingCountChart
+            //   .width(300)
+            //   .height(180)
+            //   .dimension(ratingDim)
+            //   .group(countPerRating)
+            //   .x(d3.scale.linear().domain([0, 5.2]))
+            //   .elasticY(true)
+            //   .centerBar(true)
+            //   .barPadding(5)
+            //   .xAxisLabel('My rating')
+            //   .yAxisLabel('Count')
+            //   .margins({ top: 10, right: 20, bottom: 50, left: 50 });
+            // ratingCountChart.xAxis().tickValues([0, 1, 2, 3, 4, 5]);
+
+            // commRatingCountChart
+            //   .width(300)
+            //   .height(180)
+            //   .dimension(commRatingDim)
+            //   .group(countPerCommRating)
+            //   .x(d3.scale.linear().domain([0, 5.2]))
+            //   .elasticY(true)
+            //   .centerBar(true)
+            //   .barPadding(5)
+            //   .xAxisLabel('Community rating')
+            //   .yAxisLabel('Count')
+            //   .margins({ top: 10, right: 20, bottom: 50, left: 50 });
+            // commRatingCountChart.xAxis().tickValues([0, 1, 2, 3, 4, 5]);
+
+            // abvCountChart
+            //   .width(300)
+            //   .height(180)
+            //   .dimension(abvDim)
+            //   .group(countPerABV)
+            //   .x(d3.scale.linear().domain([-0.2, d3.max(beerData, function (d) { return d.beer.beer_abv; }) + 0.2]))
+            //   .elasticY(true)
+            //   .centerBar(true)
+            //   .barPadding(2)
+            //   .xAxisLabel('Alcohol By Volume (%)')
+            //   .yAxisLabel('Count')
+            //   .margins({ top: 10, right: 20, bottom: 50, left: 50 });
+
+            // ibuCountChart
+            //   .width(300)
+            //   .height(180)
+            //   .dimension(ibuDim)
+            //   .group(countPerIBU)
+            //   .x(d3.scale.linear().domain([-2, d3.max(beerData, function (d) { return d.beer.beer_ibu; }) + 2]))
+            //   .elasticY(true)
+            //   .centerBar(true)
+            //   .barPadding(5)
+            //   .xAxisLabel('International Bitterness Units')
+            //   .yAxisLabel('Count')
+            //   .xUnits(function (d) { return 5; })
+            //   .margins({ top: 10, right: 20, bottom: 50, left: 50 });
+
+            dataCount
+              .dimension(ndx)
+              .group(all);
+
+            dataTable
+              .dimension(allDim)
+              .group(function (d) { return 'dc.js insists on putting a row here so I remove it using JS'; })
+              .size(100)
+              .columns([
+                // function (d) { return d.brewery.brewery_name; },
+                // function (d) { return d.beer.beer_name; },
+                // function (d) { return d.beer.beer_style; },
+                // function (d) { return d.rating_score; },
+                // function (d) { return d.beer.rating_score; },
+                // function (d) { return d.beer.beer_abv; },
+                // function (d) { return d.beer.beer_ibu; }
+              ])
+
+              //  alter code to city adapted to stores 
+
+
+              .sortBy(dc.pluck('Type_1'))
+              .order(d3.descending)
+              .on('renderlet', function (table) {
+                // each time table is rendered remove nasty extra row dc.js insists on adding
+                table.select('tr.dc-table-group').remove();
+                //  myFunctionHolder.pointToCircle = function (feature, latlng) {
+                //     var geojsonMarkerOptions = {
+                //       radius: 8,
+                //       //fillColor: "#F46B06",
+                //       fillColor: "yellow",
+                //       color: "black",
+                //       weight: 1,
+                //       opacity: 1,
+                //       fillOpacity: 0.8
+                //     };
+                //     var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
+                //     return circleMarker;
+                // update map with breweries to match filtered data
+                // breweryMarkers.clearLayers();
+                // _.each(allDim.top(Infinity), function (d) {
+                //   var loc = d.brewery.location;
+                //   var name = d.brewery.brewery_name;
+                //   var marker = L.circleMarker([loc.lat, loc.lng], { 
+                //   radius: 8,
+                //   fillColor: "#F46B06",
+                //   // fillColor: "yellow",
+                //   color: "black",
+                //   weight: 1,
+                //   opacity: 1,
+                //   fillOpacity: 0.8});
+                //   marker.bindPopup("<p>" + name + " " + loc.brewery_city + " " + loc.brewery_state + "</p>");
+                //   breweryMarkers.addLayer(marker);
+
+                //***tailored popup to project 
+
+                storeMarkers.clearLayers();
+                _.each(allDim.top(Infinity), function (d) {
+                  var latitude = d["Y"];
+                  var longitude = d["X"];
+                  var fullAddress = d["FullAddres"];
+                  var name = d["Name"];
+                  var city = d["City_1"];
+                  var county = d["County"];
+                  var storeType = d["Type_1"];
+
+                  // Types of stores Bakery Specialty, Combination Grocery/Other, Farmers' Market, 
+                  //  Food Buying Co-op, Fruits/Veg Specialty, Large Grocery Store,
+                  //   Meat/Poultry Specialty, Medium Grocery Store, Small Grocery Store, 
+                  //   Super Store, Supermarket, Unknown, Wholesaler
+
+                  if (storeType == "Bakery Specialty") {
+                    fillColor_Var = "#fb9a99";
+                  } else if (storeType == "Combination Grocery/Other") {
+                    fillColor_Var = "#e31a1c";
+                  } else if (storeType == "Farmers' Market") {
+                    fillColor_Var = "#fdbf6f";
+                  } else if (storeType == "Food Buying Co-op") {
+                    fillColor_Var = "#ff7f00";
+                  } else if (storeType == "Fruits/Veg Specialty") {
+                    fillColor_Var = "#cab2d6";
+                  } else if (storeType == " Large Grocery Store") {
+                    fillColor_Var = "#0096FF";
+                  } else if (storeType == "Meat/Poultry Specialty") {
+                    fillColor_Var = "#40E0D0";
+                  }
+                  else if (storeType == "Medium Grocery Store") {
+                    fillColor_Var = "#43a2ca";
+                  } else if (storeType == "Small Grocery Store") {
+                    fillColor_Var = "#0868ac";
+                  } else if (storeType == "Super Store") {
+                    fillColor_Var = "#7bccc4";
+                  } else if (storeType == "Supermarket") {
+                    fillColor_Var = "#bae4bc";
+                  } else if (storeType == "Unknown") {
+                    fillColor_Var = "#0096FF";
+                  } else if (storeType == "Wholesaler") {
+                    fillColor_Var = "#f0f9e8";
+                  }
+                  else {
+                    fillColor_Var = "#B9C0C3";
+                  }
+
+
+
+
+
+
+
+                  // ***review for correct format to populate cordinates
+
+
+                  var marker = L.circleMarker([latitude, longitude], {
+                    radius: 8,
+                    fillColor: fillColor_Var,
+                    color: "black",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                  });
+
+
+                  //   marker.bindPopup("<p>" + name + " " + fullAddress + " " + city + " " + county + " " + storeType + " " + "</p>");
+                  //   breweryMarkers.addLayer(marker);
+                  // });
+
+                  // *** Modified popup display: start
+                  marker.bindPopup(
+                    "<p>" + "Name: " + name + "<br>" + "Address: " + fullAddress + "<br> " + "City: " + city + "<br> " + "County: " + county + "<br> " + "Source Type: " + storeType + "<br> " + "</p>");
+                  breweryMarkers.addLayer(marker);
+                });
+
+                // *** Modified popup display: end 
+
+                // *** tailor variable to project breweryMarkers
+                map.addLayer(storeMarkers);
+                map.fitBounds(storeMarkers.getBounds());
+              });
+
+            // register handlers
+            d3.selectAll('a#all').on('click', function () {
+              dc.filterAll();
+              dc.renderAll();
             });
 
-            // //change the varialbe "OpenTopoMap" according to the map style you choose
-            // //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
+            d3.selectAll('a#year').on('click', function () {
+              yearChart.filterAll();
+              dc.redrawAll();
+            });
 
-            USGS_USImagery.addTo(map); 
-
-            // *** onload sequence
-            // window.onload = function () {
-
-              d3.csv('Storesfiltered.csv', function (error, data) {
-
-
-//  *** tailored to project stop 
-
-      // d3.json('Storesfiltered2.geojson', function (error, data) {
-      // var beerData = data.response.beers.items;
-// ***check full date***
-
-//  *** start process
-
-
-
-      var fullDateFormat = d3.time.format('%a, %d %b %Y %X %Z');
-      var yearFormat = d3.time.format('%Y');
-      // var monthFormat = d3.time.format('%b');
-      // var dayOfWeekFormat = d3.time.format('%a');
-
-      // normalize/parse data so dc can correctly sort & bin them
-      // I like to think of each "d" as a row in a spreadsheet
-      // _.each(beerData, function (d) {
-      //   d.count = +d.count;
-      //   // round to nearest 0.25
-      //   // d.rating_score = Math.round(+d.rating_score * 4) / 4;
-      //   // d.beer.rating_score = Math.round(+d.beer.rating_score * 4) / 4;
-      //   // // round to nearest 0.5
-      //   // d.beer.beer_abv = Math.round(+d.beer.beer_abv * 2) / 2;
-      //   // // round to nearest 10
-      //   // d.beer.beer_ibu = Math.floor(+d.beer.beer_ibu / 10) * 10;
-
-      //   d.first_had_dt = fullDateFormat.parse(d.first_had);
-      //   d.first_had_year = +yearFormat(d.first_had_dt);
-      //   // d.first_had_month = monthFormat(d.first_had_dt);
-        // d.first_had_day = dayOfWeekFormat(d.first_had_dt);
-      // });
-
-      // set crossfilter
-      var ndx = crossfilter(data);
-
-      // create dimensions (x-axis values)
-
-      // *** altered code to specific field adapted to stores
-    
-
-      var storeDim = ndx.dimension(function (d) { return d["City"];}),
-        // dc.pluck: short-hand for same kind of anon. function we used for yearDim
-        // monthDim = ndx.dimension(dc.pluck('first_had_month')),
-        // dayOfWeekDim = ndx.dimension(dc.pluck('first_had_day')),
-        // ratingDim = ndx.dimension(dc.pluck('rating_score')),
-        // commRatingDim = ndx.dimension(function (d) { return d.beer.rating_score; }),
-        // abvDim = ndx.dimension(function (d) { return d.beer.beer_abv; }),
-        // ibuDim = ndx.dimension(function (d) { return d.beer.beer_ibu; }),
-        allDim = ndx.dimension(function (d) { return d; });
-
-      // create groups (y-axis values)
-      var all = ndx.groupAll();
-      // var countPerYear = yearDim.group().reduceCount();
-        // countPerMonth = monthDim.group().reduceCount(),
-        // countPerDay = dayOfWeekDim.group().reduceCount(),
-        // countPerRating = ratingDim.group().reduceCount(),
-        // countPerCommRating = commRatingDim.group().reduceCount(),
-        // countPerABV = abvDim.group().reduceCount(),
-        // countPerIBU = ibuDim.group().reduceCount();
-
-        // ***tailored code 
-
-        var storesGroup = storeDim.group().reduceCount();
-
-      // specify charts
-
-      var storeChart = dc.pieChart('#chart-ring-store');
-      // var yearChart = dc.pieChart('#chart-ring-year'),
-
-      // ***tailored to project 
-
-
-
-        // monthChart = dc.pieChart('#chart-ring-month'),
-        // dayChart = dc.pieChart('#chart-ring-day'),
-        // ratingCountChart = dc.barChart('#chart-rating-count'),
-        // commRatingCountChart = dc.barChart('#chart-community-rating-count'),
-        // abvCountChart = dc.barChart('#chart-abv-count'),
-        // ibuCountChart = dc.barChart('#chart-ibu-count'),
-        dataCount = dc.dataCount('#data-count'),
-      dataTable = dc.dataTable('#data-table');
-
-      // yearChart
-      //   .width(150)
-      //   .height(150)
-      //   .dimension(yearDim)
-      //   .group(countPerYear)
-      //   .innerRadius(20);
-
-        // *** tailored to project 
-
-
-      storeChart
-        .width(150)
-        .height(150)
-        .dimension(storeDim)
-        .group(storesGroup)
-        .innerRadius(20);
-
-      // monthChart
-      //   .width(150)
-      //   .height(150)
-      //   .dimension(monthDim)
-      //   .group(countPerMonth)
-      //   .innerRadius(20)
-      //   .ordering(function (d) {
-      //     var order = {
-      //       'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4,
-      //       'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8,
-      //       'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
-      //     };
-      //     return order[d.key];
-      //   });
-
-      // dayChart
-      //   .width(150)
-      //   .height(150)
-      //   .dimension(dayOfWeekDim)
-      //   .group(countPerDay)
-      //   .innerRadius(20)
-      //   .ordering(function (d) {
-      //     var order = {
-      //       'Mon': 0, 'Tue': 1, 'Wed': 2, 'Thu': 3,
-      //       'Fri': 4, 'Sat': 5, 'Sun': 6
-      //     }
-      //     return order[d.key];
-      //   }
-      //   );
-
-      // ratingCountChart
-      //   .width(300)
-      //   .height(180)
-      //   .dimension(ratingDim)
-      //   .group(countPerRating)
-      //   .x(d3.scale.linear().domain([0, 5.2]))
-      //   .elasticY(true)
-      //   .centerBar(true)
-      //   .barPadding(5)
-      //   .xAxisLabel('My rating')
-      //   .yAxisLabel('Count')
-      //   .margins({ top: 10, right: 20, bottom: 50, left: 50 });
-      // ratingCountChart.xAxis().tickValues([0, 1, 2, 3, 4, 5]);
-
-      // commRatingCountChart
-      //   .width(300)
-      //   .height(180)
-      //   .dimension(commRatingDim)
-      //   .group(countPerCommRating)
-      //   .x(d3.scale.linear().domain([0, 5.2]))
-      //   .elasticY(true)
-      //   .centerBar(true)
-      //   .barPadding(5)
-      //   .xAxisLabel('Community rating')
-      //   .yAxisLabel('Count')
-      //   .margins({ top: 10, right: 20, bottom: 50, left: 50 });
-      // commRatingCountChart.xAxis().tickValues([0, 1, 2, 3, 4, 5]);
-
-      // abvCountChart
-      //   .width(300)
-      //   .height(180)
-      //   .dimension(abvDim)
-      //   .group(countPerABV)
-      //   .x(d3.scale.linear().domain([-0.2, d3.max(beerData, function (d) { return d.beer.beer_abv; }) + 0.2]))
-      //   .elasticY(true)
-      //   .centerBar(true)
-      //   .barPadding(2)
-      //   .xAxisLabel('Alcohol By Volume (%)')
-      //   .yAxisLabel('Count')
-      //   .margins({ top: 10, right: 20, bottom: 50, left: 50 });
-
-      // ibuCountChart
-      //   .width(300)
-      //   .height(180)
-      //   .dimension(ibuDim)
-      //   .group(countPerIBU)
-      //   .x(d3.scale.linear().domain([-2, d3.max(beerData, function (d) { return d.beer.beer_ibu; }) + 2]))
-      //   .elasticY(true)
-      //   .centerBar(true)
-      //   .barPadding(5)
-      //   .xAxisLabel('International Bitterness Units')
-      //   .yAxisLabel('Count')
-      //   .xUnits(function (d) { return 5; })
-      //   .margins({ top: 10, right: 20, bottom: 50, left: 50 });
-
-      dataCount
-        .dimension(ndx)
-        .group(all);
-
-      dataTable
-        .dimension(allDim)
-        .group(function (d) { return 'dc.js insists on putting a row here so I remove it using JS'; })
-        .size(100)
-        .columns([
-          // function (d) { return d.brewery.brewery_name; },
-          // function (d) { return d.beer.beer_name; },
-          // function (d) { return d.beer.beer_style; },
-          // function (d) { return d.rating_score; },
-          // function (d) { return d.beer.rating_score; },
-          // function (d) { return d.beer.beer_abv; },
-          // function (d) { return d.beer.beer_ibu; }
-        ])
-
-        //  alter code to city adapted to stores 
-
-
-        .sortBy(dc.pluck('City'))
-        .order(d3.descending)
-        .on('renderlet', function (table) {
-          // each time table is rendered remove nasty extra row dc.js insists on adding
-          table.select('tr.dc-table-group').remove();
-//  myFunctionHolder.pointToCircle = function (feature, latlng) {
-      //     var geojsonMarkerOptions = {
-      //       radius: 8,
-      //       //fillColor: "#F46B06",
-      //       fillColor: "yellow",
-      //       color: "black",
-      //       weight: 1,
-      //       opacity: 1,
-      //       fillOpacity: 0.8
-      //     };
-      //     var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
-      //     return circleMarker;
-          // update map with breweries to match filtered data
-          // breweryMarkers.clearLayers();
-          // _.each(allDim.top(Infinity), function (d) {
-          //   var loc = d.brewery.location;
-          //   var name = d.brewery.brewery_name;
-          //   var marker = L.circleMarker([loc.lat, loc.lng], { 
-          //   radius: 8,
-          //   fillColor: "#F46B06",
-          //   // fillColor: "yellow",
-          //   color: "black",
-          //   weight: 1,
-          //   opacity: 1,
-          //   fillOpacity: 0.8});
-          //   marker.bindPopup("<p>" + name + " " + loc.brewery_city + " " + loc.brewery_state + "</p>");
-          //   breweryMarkers.addLayer(marker);
-            
-            //***tailored popup to project 
-           
-            breweryMarkers.clearLayers();
-          _.each(allDim.top(Infinity), function (d) { 
-            var latitude = d["Y"];
-            var longitude = d["X"];
-            var fullAddress = d["FullAddres"];
-            var name = d["Name"];
-            var city = d["City_1"];
-            var county = d["County"];
-            var storeType = d["Type_1"];
-
-            // Types of stores Bakery Specialty, Combination Grocery/Other, Farmers' Market, 
-            //  Food Buying Co-op, Fruits/Veg Specialty, Large Grocery Store,
-            //   Meat/Poultry Specialty, Medium Grocery Store, Small Grocery Store, 
-            //   Super Store, Supermarket, Unknown, Wholesaler
-
-            if (storeType == "Bakery Specialty") {
-                                fillColor_Var = "#fb9a99";
-                            } else if (storeType == "Combination Grocery/Other") {
-                                fillColor_Var = "#e31a1c";
-                            } else if (storeType == "Farmers' Market") {
-                                fillColor_Var = "#fdbf6f";
-                              } else if (storeType == "Food Buying Co-op") {
-                                fillColor_Var = "#ff7f00";
-                            } else if (storeType == "Fruits/Veg Specialty") {
-                                fillColor_Var = "#cab2d6";
-                            }  else if (storeType == " Large Grocery Store") {
-                                fillColor_Var = "#0096FF";
-                            } else if (storeType == "Meat/Poultry Specialty") {
-                                fillColor_Var = "#40E0D0";
-                            }
-                           else if (storeType == "Medium Grocery Store") {
-                                fillColor_Var = "#43a2ca";
-                            } else if (storeType == "Small Grocery Store") {
-                                fillColor_Var = "#0868ac";
-                              } else if (storeType == "Super Store") {
-                                fillColor_Var = "#7bccc4";
-                            } else if (storeType == "Supermarket") {
-                                fillColor_Var = "#bae4bc";
-                            }  else if (storeType == "Unknown") {
-                                fillColor_Var = "#0096FF";
-                            } else if (storeType == "Wholesaler") {
-                                fillColor_Var = "#f0f9e8";
-                            }
-                             else {
-                                fillColor_Var = "#B9C0C3";
-                            }
-                            
-
-                           
-
-
-
-
-            // ***review for correct format to populate cordinates
-
-
-            var marker = L.circleMarker([latitude, longitude], { 
-            radius: 8,
-            fillColor: fillColor_Var,
-            color: "black",
-            weight: 1,
-            opacity: 1,
-            fillOpacity: 0.8
-          });
-          
-
-          //   marker.bindPopup("<p>" + name + " " + fullAddress + " " + city + " " + county + " " + storeType + " " + "</p>");
-          //   breweryMarkers.addLayer(marker);
-          // });
-
-          marker.bindPopup(
-            "<p>" + name + " " + fullAddress + " " + city + " " + county + " " + storeType + " " + "</p>");
-          breweryMarkers.addLayer(marker);
-        });
-
-          // *** tailor variable to project breweryMarkers
-          map.addLayer(breweryMarkers);
-          map.fitBounds(breweryMarkers.getBounds());
-        });
-
-      // register handlers
-      d3.selectAll('a#all').on('click', function () {
-        dc.filterAll();
-        dc.renderAll();
-      });
-
-      d3.selectAll('a#year').on('click', function () {
-        yearChart.filterAll();
-        dc.redrawAll();
-      });
-
-      // d3.selectAll('a#month').on('click', function () {
-      //   monthChart.filterAll();
-      //   dc.redrawAll();
-      // });
-
-      // d3.selectAll('a#day').on('click', function () {
-      //   dayChart.filterAll();
-      //   dc.redrawAll();
-      // });
-
-      // showtime!
-      dc.renderAll();
-
-    });
-
-
-            // }
-              // *** onload sequence end
-    
+            // d3.selectAll('a#month').on('click', function () {
+            //   monthChart.filterAll();
+            //   dc.redrawAll();
             // });
-            // ;
-         // Amber code
-    document.addEventListener('DOMContentLoaded', async function() {
-      var geojsonData = await fetch("censustracts.geoJSON").
-      then(response => {
-        return response.json();
-      }).
-      then(data => {
-        return data;
-      })
 
-      //response.json(geojsonData)
-      L.geoJSON(geojsonData).addTo(map);
-    });
-  </script>
+            // d3.selectAll('a#day').on('click', function () {
+            //   dayChart.filterAll();
+            //   dc.redrawAll();
+            // });
+
+            // showtime!
+            dc.renderAll();
+
+          });
+
+
+          // }
+          // *** onload sequence end
+
+          // });
+          // ;
+          // Amber code
+          document.addEventListener('DOMContentLoaded', async function () {
+            var geojsonData = await fetch("censustracts.geoJSON").
+              then(response => {
+                return response.json();
+              }).
+              then(data => {
+                return data;
+              })
+
+            //response.json(geojsonData)
+            L.geoJSON(geojsonData).addTo(map);
+          });
+        </script>
 </body>
 
 </html>
-
