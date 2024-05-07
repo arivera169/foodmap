@@ -1,0 +1,91 @@
+/* main.css: Add and override styles */
+
+.dc-data-count small {
+    font-size: 16px;
+}
+
+#count-row {
+    margin-top: 5px;
+    padding: 0px;
+}
+
+.container-fluid {
+    padding-left: 30px;
+    padding-right: 40px;
+}
+
+.pie-chart {
+    height: 150px;
+}
+
+.dc-chart .axis text {
+    font-size: 12px;
+}
+
+text {
+    font-size: 16px;
+}
+
+#map {
+    height: 430px;
+    width: 870px;
+    /* height: 350px;
+    width: 750px; */
+}
+
+#control-row {
+    padding-bottom: 20px;
+}
+
+a {
+    cursor: pointer
+}
+
+
+/* for popup indent */
+
+dd {
+    display: block;
+    margin-left: 20px;
+}
+
+.dc-chart g.row text {
+    fill: #040a0f;
+    font-size: 0.60em;
+    pointer-events: inherit;
+}
+
+#paging {
+    text-align: right;
+}
+
+#data-table th span {
+    /*Glyphicon style*/
+    float: right;
+    font-size: 1em;
+    color: #0080bf;
+    display: inline-block;
+}
+
+#data-table th {
+    cursor: pointer;
+}
+
+
+/*for hover over profile image*/
+
+
+/* img.profilePic:hover,
+img.profilePic:focus {
+    width: auto;
+    height: 150px;
+} */
+
+
+/* for the legend bar put above the map */
+
+
+/* 
+.legend {
+    text-align: center;
+} */

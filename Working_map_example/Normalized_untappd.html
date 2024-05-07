@@ -5,15 +5,15 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>dc.js example - Untappd Data Visualization</title>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="bootstrap.min.css" />
+  <!-- <link rel="stylesheet" href="bootstrap.min.css" />
   <link rel="stylesheet" href="MarkerCluster.css" />
-  <link rel="stylesheet" href="MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="MarkerCluster.Default.css" /> -->
   <link rel="stylesheet" type="text/css" href="dc.css">
   <link rel="stylesheet" type="text/css" href="leaflet.css">
   <link rel="stylesheet" type="text/css" href="leaflet_Crossfilter.css">
   <link rel="stylesheet" type="text/css" href="bootstrap.css">
   <link rel="stylesheet" type="text/css" href="main.css">
-  <script src="leaflet.markercluster.js"></script> 
+  <!-- <script src="leaflet.markercluster.js"></script>  -->
   <script type="text/javascript" src="d3.js"></script>
   <script type="text/javascript" src="crossfilter.js"></script>
   <script type="text/javascript" src="dc.js"></script>
@@ -131,7 +131,7 @@ USGS_USImagery.addTo(map);
 
     /* Parse JSON file, create charts, draw markers on map */
     d3.json('untappd.json', function (error, data) {
-      var beerData = data.response.beers.items;
+      var data = data.response.beers.items;
 // ***check full date***
       var fullDateFormat = d3.time.format('%a, %d %b %Y %X %Z');
       var yearFormat = d3.time.format('%Y');
@@ -140,15 +140,15 @@ USGS_USImagery.addTo(map);
 
       // normalize/parse data so dc can correctly sort & bin them
       // I like to think of each "d" as a row in a spreadsheet
-      _.each(beerData, function (d) {
-        d.count = +d.count;
-        // round to nearest 0.25
-        d.rating_score = Math.round(+d.rating_score * 4) / 4;
-        d.beer.rating_score = Math.round(+d.beer.rating_score * 4) / 4;
-        // round to nearest 0.5
-        d.beer.beer_abv = Math.round(+d.beer.beer_abv * 2) / 2;
-        // round to nearest 10
-        d.beer.beer_ibu = Math.floor(+d.beer.beer_ibu / 10) * 10;
+      _.each(data, function (d) {
+        // d.count = +d.count;
+        // // round to nearest 0.25
+        // d.rating_score = Math.round(+d.rating_score * 4) / 4;
+        // d.beer.rating_score = Math.round(+d.beer.rating_score * 4) / 4;
+        // // round to nearest 0.5
+        // d.beer.beer_abv = Math.round(+d.beer.beer_abv * 2) / 2;
+        // // round to nearest 10
+        // d.beer.beer_ibu = Math.floor(+d.beer.beer_ibu / 10) * 10;
 
         d.first_had_dt = fullDateFormat.parse(d.first_had);
         d.first_had_year = +yearFormat(d.first_had_dt);
@@ -157,7 +157,7 @@ USGS_USImagery.addTo(map);
       });
 
       // set crossfilter
-      var ndx = crossfilter(beerData);
+      var ndx = crossfilter(data);
 
       // create dimensions (x-axis values)
       var yearDim = ndx.dimension(function (d) { return d.first_had_year; }),

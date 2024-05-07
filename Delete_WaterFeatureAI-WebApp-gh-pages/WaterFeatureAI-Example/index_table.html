@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Water Feature Papers</title>
+    <meta charset="UTF-8">
+    <!-- <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/dc.css"> -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.9/dc.min.css" />
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/leaflet.css">
+    <!-- <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/bootstrap.css"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="myCSS_styleFiles/main.css">
+
+    <!-- <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/jquery.dataTables.css"> -->
+
+
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- 1st row - map title  -->
+        <div class="row">
+            <div class="col-xs-12 dc-data-count dc-chart" id="data-count">
+                <h3><b>Literature of Intelligent Water Information Extraction Using AI
+                </b></h3>
+
+                <!-- Trigger the modal with a button -->
+
+
+                <!-- 2nd row - subtitle and data count  -->
+                <div class="row">
+                    <div class="col-xs-12 dc-data-count dc-chart" id="data-count">
+                        <h4>Reviewed Papers
+                            <small>
+            <span class="filter-count"></span> selected out of <span class="total-count"></span> records |
+            <a id="all" href="#">Reset All</a>
+            </span>
+            </small>
+                            <button type="button" class="btn btn-default info pull-right" data-toggle="modal" data-target="#myModal">About the project</button>
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- 3rd row - map and two pie charts-->
+                <div class="row" id="control-row">
+                    <div class="col-xs-8">
+                        <!-- <h4>Shark Attacks Marker Map
+                            <a href="index_2.html" style="color:black;">| Shark Attacks Choropleth Map </a>
+                        </h4> -->
+
+                        <p><i>(<span style="color:#228B22"> green</span> points: water quality; <span style="color:#0096FF">bright blue</span>: water body; <span style="color: #40E0D0">turquoise</span>: water quality & water body)</i></p>
+                        <div id="map"></div>
+                    </div>
+                    <div class="col-xs-2 pie-chart">
+                        <h4><br>Paper Focus <small><a id="focus">reset</a></small></h4>
+                        <div class="dc-chart" id="chart-ring-focus"></div>
+
+                    </div>
+                    <div class="col-xs-2 pie-chart">
+                        <h4><br>Country <small><a id="country">reset</a></small></h4>
+                        <div class="dc-chart" id="chart-ring-country"></div>
+                    </div>
+
+                </div>
+                <!-- 4th row - bar charts -->
+                <div class="row" id="control-row">
+
+                    <div class="col-xs-6">
+                        <h4><br>Year of Publication <small><a id="year">reset</a></small></h4>
+                        <div class="dc-chart" id="chart-year-count"></div>
+                    </div>
+                    <div class="col-xs-6 ">
+                        <h4><br>Cited By <small><a id="citedBy">reset</a></small></h4>
+                        <div class="dc-chart" id="chart-citedBy-count"></div>
+                    </div>
+                </div>
+
+                <!-- 5th row - keyword row charts -->
+                <div id="section2" class="container-fluid">
+                    <div class="row" id="control-row">
+                        <div class="col-xs-3 row-chart">
+                            <h4>First Keyword<small><a id="first-interest"> reset</a></small></h4>
+                            <div class="dc-chart" id="first-interest-row-chart"></div>
+                        </div>
+                        <div class="col-xs-3 row-chart">
+                            <h4>Second Keyword<small><a id="second-interest"> reset</a></small></h4>
+                            <div class="dc-chart" id="second-interest-row-chart"></div>
+                        </div>
+
+                        <div class="col-xs-2 row-chart">
+                            <h4>Third Keyword <small><a id="third-interest"> reset</a></small></h4>
+                            <div class="dc-chart" id="third-interest-row-chart"></div>
+                        </div>
+
+                        <div class="col-xs-2 row-chart">
+                            <h4>Fourth Keyword <small><a id="fourth-interest"> reset</a></small></h4>
+                            <div class="dc-chart" id="fourth-interest-row-chart"></div>
+                        </div>
+                        <div class="col-xs-2 row-chart">
+                            <h4>Fifth Keyword <small><a id="fifth-interest"> reset</a></small></h4>
+                            <div class="dc-chart" id="fifth-interest-row-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6th row - table -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-hover table-striped table-bordered" id="data-table">
+                        <thead>
+                            <tr class="table-header">
+                                <!-- Programmatically insert table headers here -->
+                                <!-- <th>Title</th>
+                                <th>Published on Journal</th>
+                                <th>Year of Publication </th>
+                                <th>Authors</th>
+                                <th>First Author</th>
+                                <th>First Author Institute</th>
+                                <th>Focus of Paper</th> -->
+
+                            </tr>
+                        </thead>
+                    </table>
+                    <!-- -------adding for sortable table------- -->
+                    <div class="col-sm-12" id="paging">
+                        Showing <span id="begin"></span>-<span id="end"></span> of <span id="size"></span>
+                        <input id="Prev" class="btn btn-secondary" role="button" type="button" value="Prev" onclick="javascript:prevPage()" />
+                        <input id="Next" class="btn btn-secondary" role="button" type="button" value="Next" onclick="javascript:nextPage()" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3.js"></script>
+        <script type="text/javascript" src="JS_CSS_downloaded_libraries/crossfilter.js"></script>
+        <!-- <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc.js"></script> -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dc/2.1.9/dc.min.js"></script>
+        <script type="text/javascript" src="JS_CSS_downloaded_libraries/leaflet.js"></script>
+        <script type="text/javascript" src="JS_CSS_downloaded_libraries/underscore-min.js"></script>
+        <script type="text/javascript" src="JS_CSS_downloaded_libraries/jQuery.js"></script>
+        <script type="text/javascript" src="JS_CSS_downloaded_libraries/Bootstrap.js"></script>
+
+        <!-- dataTable.js -->
+        <!-- <script type="text/javascript" src="JS_CSS_downloaded_libraries/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc.datatables.js"></script> -->
+
+        <script type="text/javascript">
+            //add base map
+            var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom: 20,
+                    attribution: '© <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+                }),
+                OpenStreetMap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                });
+
+
+            var map = L.map('map', {
+                zoom: 10,
+                layers: [USGS_USImagery, OpenStreetMap]
+            });
+            var baseMaps = {
+                "USGS Satellite": USGS_USImagery,
+                "OpenStreetMap": OpenStreetMap
+
+            };
+
+            var paperMarkers = new L.FeatureGroup();
+
+
+
+
+            L.control.layers(baseMaps).addTo(map);
+
+
+            /* Parse csv file, create charts, draw markers on map */
+            d3.csv("data/waterWebApp_datasheet_test.csv", function(error, data) {
+
+
+                // set crossfilter
+                var ndx = crossfilter(data);
+
+                // create dimensions (x-axis values)
+                var countryDim = ndx.dimension(function(d) {
+                    return d["institution_country"];
+                });
+
+                var focusDim = ndx.dimension(function(d) {
+                    return d["waterbody_waterquality"];
+                });
+                var yearDim = ndx.dimension(function(d) {
+                    return d["year"];
+                });
+                var citedByDim = ndx.dimension(function(d) {
+                    return d["paper_citedBy_10Nov2021"];
+                });
+                var allDim = ndx.dimension(function(d) {
+                    return d;
+                });
+
+                var firstInterestDim = ndx.dimension(function(d) {
+                    return d["keyword_1"];
+                });
+
+                var secondInterestDim = ndx.dimension(function(d) {
+                    return d["keyword_2"];
+                });
+
+                var thirdInterestDim = ndx.dimension(function(d) {
+                    return d["keyword_3"];
+                });
+
+                var fourthInterestDim = ndx.dimension(function(d) {
+                    return d["keyword_4"];
+                });
+
+                var fifthInterestDim = ndx.dimension(function(d) {
+                    return d["keyword_5"];
+                });
+
+                // create groups (y-axis values)
+
+                var all = ndx.groupAll();
+
+                var countryGroup = countryDim.group().reduceCount();
+                var focusGroup = focusDim.group().reduceCount();
+                var yearGroup = yearDim.group().reduceCount();
+                var citedByGroup = citedByDim.group().reduceCount();
+                var firstInterestGroup = firstInterestDim.group().reduceCount();
+                // var firstInterestGroup = firstInterestDim.group();
+                var secondInterestGroup = secondInterestDim.group().reduceCount();
+                var thirdInterestGroup = thirdInterestDim.group().reduceCount();
+                var fourthInterestGroup = fourthInterestDim.group().reduceCount();
+                var fifthInterestGroup = fifthInterestDim.group().reduceCount();
+                // specify charts
+                // This is where the chart variable is defined.
+                var countryChart = dc.pieChart('#chart-ring-country');
+                var focusChart = dc.pieChart('#chart-ring-focus');
+                var yearChart = dc.barChart('#chart-year-count');
+                var citedByChart = dc.barChart('#chart-citedBy-count');
+                var firstInterestChart = dc.rowChart('#first-interest-row-chart');
+                var secondInterestChart = dc.rowChart('#second-interest-row-chart');
+                var thirdInterestChart = dc.rowChart('#third-interest-row-chart');
+                var fourthInterestChart = dc.rowChart('#fourth-interest-row-chart');
+                var fifthInterestChart = dc.rowChart('#fifth-interest-row-chart');
+
+                dataCount = dc.dataCount('#data-count');
+
+                // dataTable = dc_datatables.datatable('.table-striped');
+                dataTable = dc.dataTable('#data-table');
+
+                // This is where you define the code for each chart variable.
+
+                countryChart
+                    .width(225)
+                    .height(280)
+                    // .ordinalColors(['#493F3F', 'red', 'orange'])
+                    .dimension(countryDim)
+                    .group(countryGroup)
+                    .innerRadius(20);
+
+                focusChart
+                    .width(225)
+                    .height(280)
+                    .ordinalColors(['#0096FF', '#228B22', '#40E0D0'])
+                    // .ordinalColors(['#493F3F', 'red', 'orange'])
+                    .dimension(focusDim)
+                    .group(focusGroup)
+                    .innerRadius(20);
+
+                yearChart
+                    .width(550)
+                    .height(350)
+                    .dimension(yearDim)
+                    .group(yearGroup)
+                    .x(d3.scale.ordinal().domain(yearDim)) //d3.scale.ordinal().domain(genusDim) //d3.scaleBand() for d3 v4
+                    .xUnits(dc.units.ordinal)
+                    .elasticX(true)
+                    .elasticY(true)
+                    .brushOn(false)
+                    .centerBar(true)
+                    // .xAxisLabel('Injury Cause')
+                    .yAxisLabel('Count')
+
+                .margins({
+                        top: 25,
+                        right: 20,
+                        bottom: 100,
+                        left: 80
+                    })
+                    .barPadding(0.6)
+                    .outerPadding(1)
+                    .gap(15)
+                    // because of the x axix label, need to set the bootom margin a large number
+                    .renderlet(function(chart) {
+                        chart.selectAll("g.x text")
+                            // .attr('dx', '-30')
+                            .attr('dx', '-5')
+                            .attr('dy', '15')
+                            // .attr('transform', "rotate(-15)");
+                    });
+                // causeCountBarChart.xAxis().tickValues(d3.range(d["cause"].length()));
+
+
+
+                citedByChart
+                    .width(700)
+                    .height(350)
+                    .dimension(citedByDim)
+                    .group(citedByGroup)
+                    .x(d3.scale.ordinal().domain(citedByDim)) //d3.scale.ordinal().domain(genusDim) //d3.scaleBand() for d3 v4
+                    .xUnits(dc.units.ordinal)
+                    .elasticX(true)
+                    .elasticY(true)
+                    .brushOn(false)
+                    .centerBar(true)
+                    .yAxisLabel('Count')
+                    .ordering(function(d) {
+                        return d.value;
+                    })
+                    .margins({
+                        top: 25,
+                        right: 20,
+                        bottom: 100,
+                        left: 80
+                    })
+                    .barPadding(0.6)
+                    .outerPadding(1)
+                    .gap(8)
+
+                // because of the x axix label, need to set the bootom margin a large number
+                .renderlet(function(chart) {
+                        chart.selectAll("g.x text")
+                            // .attr('dx', '-30')
+                            .attr('dx', '-5')
+                            .attr('dy', '15')
+                            // .attr('transform', "rotate(-15)");
+                    })
+                    .yAxis().ticks(4);
+
+
+                firstInterestChart /* dc.rowChart('#day-of-week-chart', 'chartGroup') */
+                    .width(250)
+                    .height(550)
+                    .margins({
+                        top: 20,
+                        left: 10,
+                        right: 10,
+                        bottom: 20
+                    })
+                    .dimension(firstInterestDim)
+                    .group(firstInterestGroup)
+                    .elasticX(true)
+                    .colors("#1ca3ec")
+
+                //ascending order 
+                .ordering(function(d) {
+                        return -d.value;
+                    })
+                    .xAxis().ticks(4)
+
+                secondInterestChart /* dc.rowChart('#day-of-week-chart', 'chartGroup') */
+                    .width(220)
+                    .height(550)
+                    .margins({
+                        top: 20,
+                        left: 10,
+                        right: 10,
+                        bottom: 20
+                    })
+                    // .colors(d3.scale.category20())
+                    .group(secondInterestGroup)
+                    .dimension(secondInterestDim)
+                    // .x(d3.scaleLinear().domain([6,20]))
+                    .elasticX(true)
+                    .colors("#1ca3ec")
+                    // check how to let d3 tick marks on integers only: https://jsfiddle.net/PBrockmann/k7qnw3oj/
+                    .ordering(function(d) {
+                        return -d.value;
+                    })
+                    .xAxis().ticks(4)
+
+
+                thirdInterestChart /* dc.rowChart('#day-of-week-chart', 'chartGroup') */
+                    .width(220)
+                    .height(550)
+                    .margins({
+                        top: 20,
+                        left: 10,
+                        right: 10,
+                        bottom: 20
+                    })
+                    .colors("#1ca3ec")
+                    .group(thirdInterestGroup)
+                    .dimension(thirdInterestDim)
+                    //ascending order 
+                    .ordering(function(d) {
+                        return -d.value;
+                    })
+                    .xAxis().ticks(2)
+
+                fourthInterestChart /* dc.rowChart('#day-of-week-chart', 'chartGroup') */
+                    .width(220)
+                    .height(550)
+                    .margins({
+                        top: 20,
+                        left: 10,
+                        right: 10,
+                        bottom: 20
+                    })
+                    .colors("#1ca3ec")
+                    .group(fourthInterestGroup)
+                    .dimension(fourthInterestDim)
+                    .ordering(function(d) {
+                        return -d.value;
+                    })
+                    .xAxis().ticks(4)
+
+                fifthInterestChart /* dc.rowChart('#day-of-week-chart', 'chartGroup') */
+                    .width(230)
+                    .height(550)
+                    .margins({
+                        top: 20,
+                        left: 10,
+                        right: 10,
+                        bottom: 20
+                    })
+                    .colors("#1ca3ec")
+                    .group(fifthInterestGroup)
+                    .dimension(fifthInterestDim)
+                    .ordering(function(d) {
+                        return -d.value;
+                    })
+
+
+                dataCount
+                    .dimension(ndx)
+                    .group(all);
+
+
+                // Programmatically insert header labels for table
+                var tableHeader = d3.select(".table-header")
+                    .selectAll("th");
+
+                // Bind data to tableHeader selection.
+                tableHeader = tableHeader.data(
+                    [{
+                            label: "Title",
+                            field_name: "Title",
+                            sort_state: "ascending"
+                        }, {
+                            label: "Published on Journal",
+                            field_name: "journal",
+                            sort_state: "ascending"
+                        }, {
+                            label: "Year of Publication",
+                            field_name: "year",
+                            sort_state: "ascending"
+                        }, {
+                            label: "Authors",
+                            field_name: "authors_names",
+                            sort_state: "ascending"
+                        }, {
+                            label: "First Author",
+                            field_name: "first_author_name",
+                            sort_state: "descending"
+                        }, // Note Max Conf row starts off as descending
+                        {
+                            label: "First Author Institute",
+                            field_name: "irst_author_institution",
+                            sort_state: "fdescending"
+                        }, {
+                            label: "Focus of Paper",
+                            field_name: "waterbody_waterquality",
+                            sort_state: "ascending"
+                        }
+                    ]
+                );
+
+                // enter() into virtual selection and create new <th> header elements for each table column
+                tableHeader = tableHeader.enter()
+                    .append("th")
+                    .text(function(d) {
+                        return d.label;
+                    }) // Accessor function for header titles
+                    .on("click", tableHeaderCallback);
+
+                function tableHeaderCallback(d) {
+                    // Highlight column header being sorted and show bootstrap glyphicon
+                    var activeClass = "info";
+
+                    d3.selectAll("#data-table th") // Disable all highlighting and icons
+                        .classed(activeClass, false)
+                        .selectAll("span")
+                        .style("visibility", "hidden") // Hide glyphicon
+
+                    var activeSpan = d3.select(this) // Enable active highlight and icon for active column for sorting
+                        .classed(activeClass, true) // Set bootstrap "info" class on active header for highlight
+                        .select("span")
+                        .style("visibility", "visible");
+
+                    // Toggle sort order state to user desired state
+                    d.sort_state = d.sort_state === "ascending" ? "descending" : "ascending";
+
+                    var isAscendingOrder = d.sort_state === "ascending";
+
+                    dataTable
+                        .order(isAscendingOrder ? d3.ascending : d3.descending)
+                        .sortBy(function(datum) {
+                            return datum[d.field_name];
+                        });
+
+                    // Reset glyph icon for all other headers and update this headers icon
+                    activeSpan.node().className = ''; // Remove all glyphicon classes
+
+                    // Toggle glyphicon based on ascending/descending sort_state
+                    activeSpan.classed(
+                        isAscendingOrder ? "glyphicon glyphicon-sort-by-attributes" :
+                        "glyphicon glyphicon-sort-by-attributes-alt", true);
+
+                    updateTable();
+                    dataTable.redraw();
+                };
+
+                // Initialize sort state and sort icon on one of the header columns
+                // Highlight "Max Conf" cell on page load
+                // This can be done programmatically for user specified column
+                tableHeader.filter(function(d) {
+                        return d.label === "year";
+                    })
+                    .classed("info", true);
+
+                var tableSpans = tableHeader
+                    .append("span") // For Sort glyphicon on active table headers
+                    .classed("glyphicon glyphicon-sort-by-attributes-alt", true)
+                    .style("visibility", "hidden")
+                    .filter(function(d) {
+                        return d.label === "year";
+                    })
+                    .style("visibility", "visible");
+
+
+
+
+                // This is where you can adjust the columns of the fields in the tale.
+
+                // ##############################
+                // Generate the dc.js dataTable
+                // ##############################
+                // Create generating functions for each columns
+                var columnFunctions = [
+
+
+                    function(d) {
+                        return d["Title"];
+                    },
+                    function(d) {
+                        return d["journal"];
+                    },
+                    function(d) {
+                        return d["year"];
+                    },
+                    function(d) {
+                        return d["authors_names"];
+                    },
+
+                    function(d) {
+                        return d["first_author_name"];
+                    },
+                    function(d) {
+                        return d["first_author_institution"];
+                    },
+                    function(d) {
+                        return d["waterbody_waterquality"];
+                    },
+
+                ];
+                // Pagination implementation inspired by:
+                // https://github.com/dc-js/dc.js/blob/master/web/examples/table-pagination.html
+                dataTable.width(960).height(800)
+                    .dimension(allDim)
+                    .group(function(d) {
+                        return 'dc.js insists on putting a row here so I remove it using JS';
+                    })
+                    .size(Infinity)
+                    .columns(columnFunctions)
+                    // .showGroups(false)
+                    .sortBy(dc.pluck('year')) // Initially sort by year column
+                    .order(d3.descending);
+
+                updateTable();
+                dataTable.redraw();
+
+                // End d3.json callback function
+                var tableOffset = 0,
+                    tablePageSize = 10;
+
+                // updateTable calculates correct start and end indices for current page view
+                // it slices and pulls appropriate date for current page from dataTable object
+                // Finally, it updates the pagination button states depending on if more records
+                // are available
+                function updateTable() {
+                    // Ensure Prev/Next bounds are correct, especially after filters applied to dc charts
+                    var totFilteredRecs = all.value();
+                    // Adjust values of start and end record numbers for edge cases
+                    var end = tableOffset + tablePageSize > totFilteredRecs ? totFilteredRecs : tableOffset + tablePageSize;
+                    tableOffset = tableOffset >= totFilteredRecs ? Math.floor((totFilteredRecs - 1) / tablePageSize) * tablePageSize : tableOffset;
+                    tableOffset = tableOffset < 0 ? 0 : tableOffset; // In case of zero entries
+
+                    // Grab data for current page from the dataTable object
+                    dataTable.beginSlice(tableOffset);
+                    dataTable.endSlice(tableOffset + tablePageSize);
+
+                    // Update Table paging buttons and footer text
+                    d3.select('span#begin')
+                        .text(end === 0 ? tableOffset : tableOffset + 1); // Correct for "Showing 1 of 0" bug
+                    d3.select('span#end')
+                        .text(end);
+                    d3.select('#Prev.btn')
+                        .attr('disabled', tableOffset - tablePageSize < 0 ? 'true' : null);
+                    d3.select('#Next.btn')
+                        .attr('disabled', tableOffset + tablePageSize >= totFilteredRecs ? 'true' : null);
+                    d3.select('span#size').text(totFilteredRecs);
+
+                    dataTable.redraw();
+                }
+
+                // dataTable
+                //     .dimension(allDim)
+                //     .group(function(d) {
+                //         return 'dc.js insists on putting a row here so I remove it using JS';
+                //     })
+                //     .size(100)
+                // .columns([
+
+
+                //     function(d) {
+                //         return d["Title"];
+                //     },
+                //     function(d) {
+                //         return d["journal"];
+                //     },
+                //     function(d) {
+                //         return d["year"];
+                //     },
+                //     function(d) {
+                //         return d["authors_names"];
+                //     },
+
+                //     function(d) {
+                //         return d["first_author_name"];
+                //     },
+                //     function(d) {
+                //         return d["first_author_institution"];
+                //     },
+                //     function(d) {
+                //         return d["waterbody_waterquality"];
+                //     },
+                // function(d) {
+                //     return d["URL"];
+                // },
+                // ])
+                // This is the place to sort the data table, choose one of the table columns.
+                // .sortBy(dc.pluck('year'))
+                // .order(d3.descending)
+                dataTable
+                    .on('renderlet', function(table) {
+                        // each time table is rendered remove nasty extra row dc.js insists on adding
+                        table.select('tr.dc-table-group').remove();
+
+                        // update map with lecturers to match filtered data
+                        paperMarkers.clearLayers();
+                        _.each(allDim.top(Infinity), function(d) {
+                            // var loc = d.brewery.location;
+                            // this is the code for the geospatial Long/Lat
+                            var longitude = d["first_author_instiutate_lon"];
+                            var latitude = d["first_author_instiutate_lat"];
+                            var title = d["Title"];
+                            var pdf_url = d["openAccessPaper_pdf_link"];
+                            var year = d["year"];
+                            var authors_names = d["authors_names"];
+                            var first_author_name = d["first_author_name"];
+                            var institution = d["first_author_institution"]
+                            var country = d["institution_country"];
+                            var citedBy = d["paper_citedBy_10Nov2021"];
+                            var citedBy_url = d["paper_citedBy_url"];
+                            var city = d["City"];
+                            var first_author_GS_url = d["first_author_GS_url"];
+                            var keyword_1 = d["keyword_1"];
+                            var keyword_2 = d["keyword_2"];
+                            var keyword_3 = d["keyword_3"];
+                            var keyword_4 = d["keyword_4"];
+                            var keyword_5 = d["keyword_5"];
+
+                            var paperFocus = d["waterbody_waterquality"];
+
+
+                            var fillColor_Var = "";
+
+
+                            if (paperFocus == "water quality") {
+                                fillColor_Var = "#228B22";
+                            } else if (paperFocus == "water body") {
+                                fillColor_Var = "#0096FF";
+                            } else if (paperFocus == "water body & water quality") {
+                                fillColor_Var = "#40E0D0";
+                            } else {
+                                fillColor_Var = "#B9C0C3";
+                            }
+
+
+                            var marker = L.circleMarker([latitude, longitude], {
+                                radius: 7,
+                                fillColor: fillColor_Var,
+                                color: "gray",
+                                weight: 1,
+                                opacity: 1,
+                                fillOpacity: 0.8
+                            });
+
+                            marker.bindPopup(
+
+                                // "<p><b>Murphy Lecturer Information: </b></p><br>" +
+                                // "<dl>" +
+                                "<dt><span style='font-weight:bolder'>Paper Title: </span> </dt> <dd>" + title + "<dd>" +
+                                "<dt><span style='font-weight:bolder'>PDF: </span> </dt> <dd>" + '<a href= "' + pdf_url + '" target="_blank">' + "Click to access the PDF" + "</a>" + "<dd>" +
+                                "<dt><span style='font-weight:bolder'>Year: </span> </dt> <dd>" + year + "<dd>" +
+                                "<dt><span style='font-weight:bolder'>Authors: </span> </dt> <dd>" + authors_names + "<dd>" +
+                                "<dt><span style='font-weight:bolder'>First Author: </span> </dt> <dd>" + '<a href= "' + first_author_GS_url + '" target="_blank">' + first_author_name + "</a>" + "<dd>" +
+                                "<dt><span style='font-weight:bolder'>First Author Institution: </span> </dt> <dd>" + institution + "<dd>" +
+                                "<dt><span style='font-weight:bolder'>Paper Cited By As of 10 Nov, 2021: </span> </dt> <dd>" + '<a href= "' + citedBy_url + '" target="_blank">' + citedBy + "</a>" + "<dd>" +
+                                "<dt><span style='font-weight:bolder'>Keywords: </span> </dt> <dd>" + keyword_1 + ", " + keyword_2 + ", " + keyword_3 + ", " + keyword_4 + ", " + keyword_5 + "<dd>"
+                            );
+                            paperMarkers.addLayer(marker);
+                        });
+                        map.addLayer(paperMarkers);
+                        map.fitBounds(paperMarkers.getBounds());
+
+                    });
+
+                // Callback function for clicking "Next" page button
+                function nextPage() {
+                    tableOffset += tablePageSize;
+                    updateTable();
+                }
+                // Callback function for clicking "Prev" page button
+                function prevPage() {
+                    tableOffset -= tablePageSize;
+                    updateTable();
+                }
+                // register handlers
+                d3.selectAll('a#all').on('click', function() {
+                    dc.filterAll();
+                    dc.renderAll();
+                });
+
+                d3.selectAll('a#focus').on('click', function() {
+                    focusChart.filterAll();
+                    dc.redrawAll();
+                });
+
+                d3.selectAll('a#country').on('click', function() {
+                    countryChart.filterAll();
+                    dc.redrawAll();
+                });
+
+                d3.selectAll('a#citedBy').on('click', function() {
+                    citedByChart.filterAll();
+                    dc.redrawAll();
+                });
+
+                d3.selectAll('a#year').on('click', function() {
+                    yearChart.filterAll();
+                    dc.redrawAll();
+                });
+                d3.selectAll('a#first-interest').on('click', function() {
+                    firstInterestChart.filterAll();
+                    dc.redrawAll();
+                });
+                d3.selectAll('a#second-interest').on('click', function() {
+                    secondInterestChart.filterAll();
+                    dc.redrawAll();
+                });
+                d3.selectAll('a#third-interest').on('click', function() {
+                    thirdInterestChart.filterAll();
+                    dc.redrawAll();
+                });
+                d3.selectAll('a#fourth-interest').on('click', function() {
+                    fourthInterestChart.filterAll();
+                    dc.redrawAll();
+                });
+                d3.selectAll('a#fifth-interest').on('click', function() {
+                    fifthInterestChart.filterAll();
+                    dc.redrawAll();
+                });
+                // showtime!
+                dc.renderAll();
+                // dc.redrawAll('group');
+            });
+        </script>
+
+        <!-- Model code begin -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">About info for the literature review: intelligent water information extraction using AI</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <p>This is the accompany interactive web app for the review paper (invited feature paper), titled "When Water Information Extraction Meets Remote Sensing and AI: Advances, Challenges and Opportunities", and submitted to the special
+                            issue <a href="https://www.mdpi.com/journal/sensors/special_issues/Optimisation_Water_Systems" target="_blank">(Advances in the Monitoring, Diagnosis, and Optimisation of Water Systems)</a> of the open access journal <a href="https://www.mdpi.com/journal/sensors"
+                                target="_blank">Sensors</a>.
+                        </p>
+
+                        <p>Web map advisor: <a href="https://www.lipingyang.org" target="_blank">Dr. Liping Yang</a> (web design and programming)</p>
+
+                        <p>Web map design and developer: <a href="https://sarigai-geoair.github.io/" target="_blank">Sarigai Sarigai</a> (sarigaigis@gmail.com)
+                        </p>
+
+                        <p>Data provider: <a href="https://geoair.lipingyang.org/people/#Joshua_Driscol" target="_blank">Joshua Driscol</a></p>
+
+                        <strong>Acknowledgements:</strong>
+                        <p><a href="https://dc-js.github.io/dc.js/" target="_blank">dc.js</a></p>
+                        <p><a href="https://d3js.org/" target="_blank">D3</a></p>
+                        <p><a href="https://leafletjs.com/" target="_blank">Leaflet</a></p>
+                        <p><a href="https://geoair-lab.github.io/MurphyLecturerWebMap/" target="_blank">UNM GES Murphy Lecture</a></p>
+                        </p>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Model compoent end  -->
+
+</body>
+
+</html>

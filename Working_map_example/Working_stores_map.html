@@ -3,24 +3,42 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>dc.js example - Untappd Data Visualization</title>
+  <title>Food Access Map</title>
   <meta charset="UTF-8">
+
+
   <link rel="stylesheet" type="text/css" href="dc.css">
+  <link rel="stylesheet" type="text/css" href="leaflet.css">
   <link rel="stylesheet" type="text/css" href="leaflet_Crossfilter.css">
   <link rel="stylesheet" type="text/css" href="bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="CSS_Styles.css">
   <link rel="stylesheet" type="text/css" href="main.css">
-  <script type="text/javascript" src="d3.js"></script>
+    <!-- added code for heatmap -->
+    <!-- <link rel="stylesheet" href="heatmap/styles_leaflet_heatmap.css">
+    <link rel="stylesheet" href="heatmap/MarkerCluster.css">
+    <link rel="stylesheet" href="heatmap/MarkerCluster.Default.css"> -->
+
+<!-- uptappd -->
+ <script type="text/javascript" src="d3.js"></script>
   <script type="text/javascript" src="crossfilter.js"></script>
   <script type="text/javascript" src="dc.js"></script>
   <script type="text/javascript" src="leaflet_Crossfilter.js"></script>
   <script type="text/javascript" src="underscore-min.js"></script>
+   <!-- added code for heatmap  -->
+   <!-- <script src="heatmap/leaflet_1.8.0.js"></script>
+   <script src="heatmap/heatmap_v2.0.5.js"></script>
+   <script src="heatmap/leaflet-heatmap.js"></script>
+   <script src="heatmap/leaflet.markercluster.js"></script> -->
+
+
+
 </head>
 
 <body>
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-12 dc-data-count dc-chart" id="data-count">
-        <h2>Beer History
+        <h2>Store Locator
           <small>
             <span class="filter-count"></span> selected out of <span class="total-count"></span> records |
             <a id="all" href="#">Reset All</a>
@@ -31,8 +49,14 @@
     </div>
     <div class="row" id="control-row">
       <div class="col-xs-2 pie-chart">
-        <h4>Year <small><a id="year">reset</a></small></h4>
-        <div class="dc-chart" id="chart-ring-year"></div>
+        <h4>Store Type <small><a id="store"  href="#">reset</a></small></h4>
+        <!-- *** troubleshoot line 55 code add to get working chart chart-ring-store not year -->
+        <div class="dc-chart" id="chart-ring-store"></div>
+      </div>
+      <div class="col-xs-2 pie-chart">
+        <h4>County <small><a id="county" href="#">reset</a></small></h4>
+        <!-- *** troubleshoot line 55 code add to get working chart chart-ring-store not year -->
+        <div class="dc-chart" id="chart-ring-county"></div>
       </div>
       <!-- <div class="col-xs-2 pie-chart">
         <h4>Month <small><a id="month" href="#">reset</a></small></h4>
@@ -43,8 +67,10 @@
         <div id="chart-ring-day" class="dc-chart"></div>
       </div>
       <div class="col-xs-6"> -->
+        </div>
         <h4>Breweries</h4>
-        <div id="map"></div>
+        <div id="mapId2"></div>
+        <div class ="col-xs-12 col-xs-offset-6"></div>
       </div>
     </div>
     <!-- <div class="row">
@@ -106,7 +132,22 @@
 
     // USGS_USImagery.addTo(map); 
 
-    var map = L.map('map').setView([35.260310, -106.597695],10);
+    // ***start copying code here
+   
+    // *** added heatmap: start
+    // var marker = L.circleMarker([latitude, longitude], { 
+    //         radius: 8,
+    //         fillColor: fillColor_Var,
+    //         color: "black",
+    //         weight: 1,
+    //         opacity: 1,
+    //         fillOpacity: 0.8
+    //       });
+          
+    // window.onload = function () {
+      // *** added heatmap: end
+
+    var map = L.map('mapId2').setView([35.260310, -106.597695],10);
 
     var breweryMarkers = new L.FeatureGroup();
 
@@ -122,6 +163,26 @@
         //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
      
 USGS_USImagery.addTo(map); 
+// *** added heatmap: start
+// USGS_USImagery.addTo(map);
+            //   var cfg = {
+            //     radius: .005,
+            //     maxOpacity: .8,
+            //     scaleRadius: true,
+            //     useLocalExtrema: true,
+            //     latField: "Y",
+            //     lngField: "X",
+            //     name: "Name",
+
+            //   };
+            //   var heatmapLayer = new HeatmapOverlay(cfg);
+            //   heatmapLayer.setData('Storesfiltered.csv');
+            //   map.addLayer(heatmapLayer);
+            // };
+            
+            
+
+              // *** added heatmap: end
 
 
     /* Parse JSON file, create charts, draw markers on map */
@@ -139,8 +200,8 @@ USGS_USImagery.addTo(map);
 
 
 
-      var fullDateFormat = d3.time.format('%a, %d %b %Y %X %Z');
-      var yearFormat = d3.time.format('%Y');
+      // var fullDateFormat = d3.time.format('%a, %d %b %Y %X %Z');
+      // var yearFormat = d3.time.format('%Y');
       // var monthFormat = d3.time.format('%b');
       // var dayOfWeekFormat = d3.time.format('%a');
 
@@ -162,6 +223,7 @@ USGS_USImagery.addTo(map);
         // d.first_had_day = dayOfWeekFormat(d.first_had_dt);
       // });
 
+      
       // set crossfilter
       var ndx = crossfilter(data);
 
@@ -170,7 +232,8 @@ USGS_USImagery.addTo(map);
       // *** altered code to specific field adapted to stores
     
 
-      var storeDim = ndx.dimension(function (d) { return d["City"];}),
+      var storeDim = ndx.dimension(function (d) { return d["Type_1"];});
+      var countyDim = ndx.dimension(function (d) { return d["County"];});
         // dc.pluck: short-hand for same kind of anon. function we used for yearDim
         // monthDim = ndx.dimension(dc.pluck('first_had_month')),
         // dayOfWeekDim = ndx.dimension(dc.pluck('first_had_day')),
@@ -178,7 +241,8 @@ USGS_USImagery.addTo(map);
         // commRatingDim = ndx.dimension(function (d) { return d.beer.rating_score; }),
         // abvDim = ndx.dimension(function (d) { return d.beer.beer_abv; }),
         // ibuDim = ndx.dimension(function (d) { return d.beer.beer_ibu; }),
-        allDim = ndx.dimension(function (d) { return d; });
+        allDim = ndx.dimension(function (d) { return d; })
+        ;
 
       // create groups (y-axis values)
       var all = ndx.groupAll();
@@ -192,11 +256,13 @@ USGS_USImagery.addTo(map);
 
         // ***tailored code 
 
-        var storesGroup = storeDim.group().reduceCount();
+        var storeGroup = storeDim.group().reduceCount();
+        var countyGroup = countyDim.group().reduceCount();
 
       // specify charts
 
       var storeChart = dc.pieChart('#chart-ring-store');
+      var countyChart = dc.pieChart('#chart-ring-county');
       // var yearChart = dc.pieChart('#chart-ring-year'),
 
       // ***tailored to project 
@@ -226,7 +292,14 @@ USGS_USImagery.addTo(map);
         .width(150)
         .height(150)
         .dimension(storeDim)
-        .group(storesGroup)
+        .group(storeGroup)
+        .innerRadius(20);
+
+        countyChart
+        .width(150)
+        .height(150)
+        .dimension(countyDim)
+        .group(countyGroup)
         .innerRadius(20);
 
       // monthChart
@@ -335,7 +408,7 @@ USGS_USImagery.addTo(map);
         //  alter code to city adapted to stores 
 
 
-        .sortBy(dc.pluck('City'))
+        .sortBy(dc.pluck('Type_1'))
         .order(d3.descending)
         .on('renderlet', function (table) {
           // each time table is rendered remove nasty extra row dc.js insists on adding
@@ -368,7 +441,7 @@ USGS_USImagery.addTo(map);
           //   marker.bindPopup("<p>" + name + " " + loc.brewery_city + " " + loc.brewery_state + "</p>");
           //   breweryMarkers.addLayer(marker);
             
-            //***tailored popup to project 
+            //***tailored popup to project: Start 
            
             breweryMarkers.clearLayers();
           _.each(allDim.top(Infinity), function (d) { 
@@ -419,13 +492,13 @@ USGS_USImagery.addTo(map);
                             
 
                            
-
+ //***tailored popup to project: end
 
 
 
             // ***review for correct format to populate cordinates
 
-
+// *** commented out marker 
             var marker = L.circleMarker([latitude, longitude], { 
             radius: 8,
             fillColor: fillColor_Var,
@@ -440,11 +513,15 @@ USGS_USImagery.addTo(map);
           //   breweryMarkers.addLayer(marker);
           // });
 
+
+          // *** Modified popup display: start
           marker.bindPopup(
-            "<p>" + name + " " + fullAddress + " " + city + " " + county + " " + storeType + " " + "</p>");
+            "<p>" + "Name: " + name + "<br>" + "Address: " + fullAddress + "<br> " + "City: " +city + "<br> " + "County: " + county + "<br> " + "Source Type: " + storeType + "<br> " + "</p>");
           breweryMarkers.addLayer(marker);
         });
 
+          // *** Modified popup display: end 
+          
           // *** tailor variable to project breweryMarkers
           map.addLayer(breweryMarkers);
           map.fitBounds(breweryMarkers.getBounds());
@@ -456,10 +533,16 @@ USGS_USImagery.addTo(map);
         dc.renderAll();
       });
 
-      d3.selectAll('a#year').on('click', function () {
-        yearChart.filterAll();
+      d3.selectAll('a#store').on('click', function () {
+        storeChart.filterAll();
         dc.redrawAll();
       });
+
+      d3.selectAll('a#county').on('click', function () {
+        countyChart.filterAll();
+        dc.redrawAll();
+      });
+
 
       // d3.selectAll('a#month').on('click', function () {
       //   monthChart.filterAll();
@@ -474,7 +557,7 @@ USGS_USImagery.addTo(map);
       // showtime!
       dc.renderAll();
 
-    });
+    })
 
   </script>
 </body>

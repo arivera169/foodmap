@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Water Feature Papers</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/dc.css">
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/leaflet.css">
+    <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="myCSS_styleFiles/main.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <!-- 1st row - map title  -->
+        <div class="row">
+            <div class="col-xs-12 dc-data-count dc-chart" id="data-count">
+                <h3><b>Water Feature Papers, 2011?-2021?</b></h3>
+
+                <!-- Trigger the modal with a button -->
+
+
+                <!-- 2nd row - subtitle and data count  -->
+                <div class="row">
+                    <div class="col-xs-12 dc-data-count dc-chart" id="data-count">
+                        <h4>Water Feature Papers
+                            <small>
+            <span class="filter-count"></span> selected out of <span class="total-count"></span> records |
+            <a id="all" href="#">Reset All</a>
+            </span>
+            </small>
+                            <button type="button" class="btn btn-default info pull-right" data-toggle="modal" data-target="#myModal">About the project</button>
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- 3rd row - map and pie chart-->
+                <div class="row" id="control-row">
+                    <div class="col-xs-8">
+                        <!-- <h4>Shark Attacks Marker Map
+                            <a href="index_2.html" style="color:black;">| Shark Attacks Choropleth Map </a>
+                        </h4> -->
+
+                        <p><i>(<span style="color:green">green</span> points: water quality; <span style="color:blue">blue</span>: water body; <span style="color: #493F3F">gray</span>: unknown)</i></p>
+                        <div id="map"></div>
+                    </div>
+                    <div class="col-xs-4 pie-chart">
+                        <h4><br>Paper Focus <small><a id="focus">reset</a></small></h4>
+                        <div class="dc-chart" id="chart-ring-focus"></div>
+
+                    </div>
+                </div>
+                <!-- 4th row - pie charts and bar charts -->
+                <div class="row" id="control-row">
+                    <div class="col-xs-4 pie-chart">
+                        <h4><br>Country <small><a id="country">reset</a></small></h4>
+                        <div class="dc-chart" id="chart-ring-country"></div>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <h4><br>Keywords <small><a id="keywords">reset</a></small></h4>
+                        <div class="dc-chart" id="chart-keyword-count"></div>
+                    </div>
+                    <div class="col-xs-6 col-md-4">
+                        <h4><br>Year of Publication <small><a id="year">reset</a></small></h4>
+                        <div class="dc-chart" id="chart-year-count"></div>
+                    </div>
+                </div>
+
+                <!-- 5th row - table -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table table-bordered table-striped" id="data-table">
+                            <thead>
+                                <tr class="header">
+                                    <th>Title</th>
+                                    <th>Year of Publication </th>
+                                    <th>Authors</th>
+                                    <th>First Author</th>
+                                    <th>Institution</th>
+                                    <th>Paper Type</th>
+
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3.js"></script>
+            <script type="text/javascript" src="JS_CSS_downloaded_libraries/crossfilter.js"></script>
+            <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc.js"></script>
+            <script type="text/javascript" src="JS_CSS_downloaded_libraries/leaflet.js"></script>
+            <script type="text/javascript" src="JS_CSS_downloaded_libraries/underscore-min.js"></script>
+            <script type="text/javascript" src="JS_CSS_downloaded_libraries/jQuery.js"></script>
+            <script type="text/javascript" src="JS_CSS_downloaded_libraries/Bootstrap.js"></script>
+            <script type="text/javascript">
+                //add base map
+                var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
+                        maxZoom: 20,
+                        attribution: '© <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+                    }),
+                    OpenStreetMap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                        attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    });
+
+
+                var map = L.map('map', {
+                    zoom: 10,
+                    layers: [USGS_USImagery, OpenStreetMap]
+                });
+                var baseMaps = {
+                    "USGS Satellite": USGS_USImagery,
+                    "OpenStreetMap": OpenStreetMap
+
+                };
+
+                var paperMarkers = new L.FeatureGroup();
+
+
+
+
+                L.control.layers(baseMaps).addTo(map);
+
+
+                /* Parse csv file, create charts, draw markers on map */
+                d3.csv("data/waterWebApp_datasheet_test.csv", function(error, data) {
+
+
+                    // set crossfilter
+                    var ndx = crossfilter(data);
+
+                    // create dimensions (x-axis values)
+                    var countryDim = ndx.dimension(function(d) {
+                        return d["institution_country"];
+                    });
+
+                    var focusDim = ndx.dimension(function(d) {
+                        return d["waterbody_or_waterquality"];
+                    });
+                    var yearDim = ndx.dimension(function(d) {
+                        return d["year"];
+                    });
+                    var keywordDim = ndx.dimension(function(d) {
+                        return d["keyword_1"];
+                    });
+                    var allDim = ndx.dimension(function(d) {
+                        return d;
+                    });
+
+                    // create groups (y-axis values)
+
+                    var all = ndx.groupAll();
+
+                    var countryGroup = countryDim.group().reduceCount();
+                    var focusGroup = focusDim.group().reduceCount();
+                    var yearGroup = yearDim.group().reduceCount();
+                    var keywordGroup = keywordDim.group().reduceCount();
+
+                    // specify charts
+                    // This is where the chart variable is defined.
+                    var countryChart = dc.pieChart('#chart-ring-country');
+                    var focusChart = dc.pieChart('#chart-ring-focus');
+                    var yearChart = dc.barChart('#chart-year-count');
+                    var keywordChart = dc.barChart('#chart-keyword-count');
+                    dataCount = dc.dataCount('#data-count');
+                    dataTable = dc.dataTable('#data-table');
+
+                    // This is where you define the code for each chart variable.
+
+                    countryChart
+                        .width(280)
+                        .height(280)
+                        // .ordinalColors(['#493F3F', 'red', 'orange'])
+                        .dimension(countryDim)
+                        .group(countryGroup)
+                        .innerRadius(20);
+
+                    focusChart.width(280)
+                        .height(320)
+                        .ordinalColors(['gray', 'blue', 'green'])
+                        // .ordinalColors(['#493F3F', 'red', 'orange'])
+                        .dimension(focusDim)
+                        .group(focusGroup)
+                        .innerRadius(20);
+
+                    yearChart
+                        .width(400)
+                        .height(350)
+                        .dimension(yearDim)
+                        .group(yearGroup)
+                        .x(d3.scale.ordinal().domain(yearDim)) //d3.scale.ordinal().domain(genusDim) //d3.scaleBand() for d3 v4
+                        .xUnits(dc.units.ordinal)
+                        .elasticX(true)
+                        .elasticY(true)
+                        .brushOn(false)
+                        .centerBar(true)
+                        // .xAxisLabel('Injury Cause')
+                        .yAxisLabel('Count')
+                        .margins({
+                            top: 25,
+                            right: 20,
+                            bottom: 100,
+                            left: 80
+                        })
+                        .barPadding(0.3)
+                        .outerPadding(1)
+                        .gap(20)
+                        // because of the x axix label, need to set the bootom margin a large number
+                        .renderlet(function(chart) {
+                            chart.selectAll("g.x text")
+                                // .attr('dx', '-30')
+                                .attr('dx', '-5')
+                                .attr('dy', '15')
+                                .attr('transform', "rotate(-15)");
+                        });
+                    // causeCountBarChart.xAxis().tickValues(d3.range(d["cause"].length()));
+
+                    keywordChart
+                        .width(400)
+                        .height(350)
+                        .dimension(keywordDim)
+                        .group(keywordGroup)
+                        .x(d3.scale.ordinal().domain(keywordDim)) //d3.scale.ordinal().domain(genusDim) //d3.scaleBand() for d3 v4
+                        .xUnits(dc.units.ordinal)
+                        .elasticX(true)
+                        .elasticY(true)
+                        .brushOn(false)
+                        .centerBar(true)
+                        // .xAxisLabel('Injury Cause')
+                        .yAxisLabel('Count')
+                        .margins({
+                            top: 25,
+                            right: 20,
+                            bottom: 100,
+                            left: 80
+                        })
+                        .barPadding(0.3)
+                        .outerPadding(1)
+                        .gap(20)
+                        // because of the x axix label, need to set the bootom margin a large number
+                        .renderlet(function(chart) {
+                            chart.selectAll("g.x text")
+                                // .attr('dx', '-30')
+                                .attr('dx', '-60')
+                                .style("font-size", "7px")
+                                .attr('dy', '-5')
+                                .attr('transform', "rotate(-30)");
+                        });
+
+
+                    dataCount
+                        .dimension(ndx)
+                        .group(all);
+
+                    // This is where you can adjust the columns of the fields in the tale.
+                    dataTable
+                        .dimension(allDim)
+                        .group(function(d) {
+                            return 'dc.js insists on putting a row here so I remove it using JS';
+                        })
+                        .size(100)
+                        .columns([
+
+
+                            function(d) {
+                                return d["Title"];
+                            },
+                            function(d) {
+                                return d["year"];
+                            },
+                            function(d) {
+                                return d["authors_names"];
+                            },
+
+                            function(d) {
+                                return d["first_author_name"];
+                            },
+                            function(d) {
+                                return d["first_author_institution"];
+                            },
+                            function(d) {
+                                return d["waterbody_or_waterquality"];
+                            },
+                            // function(d) {
+                            //     return d["URL"];
+                            // },
+                        ])
+                        // This is the place to sort the data table, choose one of the table columns.
+                        .sortBy(dc.pluck('year'))
+                        .order(d3.descending)
+                        .on('renderlet', function(table) {
+                            // each time table is rendered remove nasty extra row dc.js insists on adding
+                            table.select('tr.dc-table-group').remove();
+
+                            // update map with lecturers to match filtered data
+                            paperMarkers.clearLayers();
+                            _.each(allDim.top(Infinity), function(d) {
+                                // var loc = d.brewery.location;
+                                // this is the code for the geospatial Long/Lat
+                                var longitude = d["first_author_instiutate_lon"];
+                                var latitude = d["first_author_instiutate_lat"];
+                                var title = d["Title"];
+                                var pdf_url = d["openAccessPaper_pdf_link"];
+                                var year = d["year"];
+                                var authors_names = d["authors_names"];
+                                var first_author_name = d["first_author_name"];
+                                var institution = d["first_author_institution"]
+                                var country = d["institution_country"];
+                                var citedBy = d["paper_citedBy_10Nov2021"];
+                                var citedBy_url = d["paper_citedBy_url"];
+                                var city = d["City"];
+                                var first_author_GS_url = d["first_author_GS_url"];
+                                var keyword_1 = d["keyword_1"];
+                                var keyword_2 = d["keyword_2"];
+                                var keyword_3 = d["keyword_3"];
+                                var keyword_4 = d["keyword_4"];
+                                var keyword_5 = d["keyword_5"];
+
+                                var paperFocus = d["waterbody_or_waterquality"];
+
+
+                                var fillColor_Var = "";
+
+
+                                if (paperFocus == "waterquality") {
+                                    fillColor_Var = "green";
+                                } else if (paperFocus == "waterbody") {
+                                    fillColor_Var = "blue";
+                                } else {
+                                    fillColor_Var = "#493F3F";
+                                }
+
+                                var marker = L.circleMarker([latitude, longitude], {
+                                    radius: 7,
+                                    fillColor: fillColor_Var,
+                                    color: "gray",
+                                    weight: 1,
+                                    opacity: 1,
+                                    fillOpacity: 0.8
+                                });
+
+                                marker.bindPopup(
+
+                                    // "<p><b>Murphy Lecturer Information: </b></p><br>" +
+                                    // "<dl>" +
+                                    "<dt><span style='font-weight:bolder'>Paper Title: </span> </dt> <dd>" + title + "<dd>" +
+                                    "<dt><span style='font-weight:bolder'>PDF: </span> </dt> <dd>" + '<a href= "' + pdf_url + '" target="_blank">' + "Click to access the PDF" + "</a>" + "<dd>" +
+                                    "<dt><span style='font-weight:bolder'>Year: </span> </dt> <dd>" + year + "<dd>" +
+                                    "<dt><span style='font-weight:bolder'>Authors: </span> </dt> <dd>" + authors_names + "<dd>" +
+                                    "<dt><span style='font-weight:bolder'>First Author: </span> </dt> <dd>" + '<a href= "' + first_author_GS_url + '" target="_blank">' + first_author_name + "</a>" + "<dd>" +
+                                    "<dt><span style='font-weight:bolder'>First Author Institution: </span> </dt> <dd>" + institution + "<dd>" +
+                                    "<dt><span style='font-weight:bolder'>Paper Cited By As of 10 Nov, 2021: </span> </dt> <dd>" + '<a href= "' + citedBy_url + '" target="_blank">' + citedBy + "</a>" + "<dd>" +
+                                    "<dt><span style='font-weight:bolder'>Keywords: </span> </dt> <dd>" + keyword_1 + ", " + keyword_2 + ", " + keyword_3 + ", " + keyword_4 + ", " + keyword_5 + "<dd>"
+                                );
+                                paperMarkers.addLayer(marker);
+                            });
+                            map.addLayer(paperMarkers);
+                            map.fitBounds(paperMarkers.getBounds());
+                        });
+
+                    // register handlers
+                    d3.selectAll('a#all').on('click', function() {
+                        dc.filterAll();
+                        dc.renderAll();
+                    });
+
+                    d3.selectAll('a#focus').on('click', function() {
+                        focusChart.filterAll();
+                        dc.redrawAll();
+                    });
+
+                    d3.selectAll('a#country').on('click', function() {
+                        countryChart.filterAll();
+                        dc.redrawAll();
+                    });
+
+                    d3.selectAll('a#keywords').on('click', function() {
+                        keywordChart.filterAll();
+                        dc.redrawAll();
+                    });
+
+                    d3.selectAll('a#year').on('click', function() {
+                        yearChart.filterAll();
+                        dc.redrawAll();
+                    });
+                    // showtime!
+                    dc.renderAll();
+
+                });
+            </script>
+
+            <!-- Model code begin -->
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">About Info for Murphy Lecturers Map </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>As the Department of Geography & Environmental Studies prepares to host its 10th annual Murphy Lecture, this map tracks all the speakers who have visited over the years. This year’s Murphy Lecture will be presented by Dr. Leila
+                                Harris at 3pm on Friday, April 16. Details and registration link are available at the
+                                <a href="https://geography.unm.edu/news/Murphy%20Lecture.html" target="_blank">GES website</a>.
+                            </p>
+
+
+                            <p>This map shows the 10 Years of Richard Murphy Memorial Lecture, from 2011-2021.</p>
+
+                            <p>Web map advisor: <a href="https://geographylane.wordpress.com/" target="_blank">Dr. Maria Lane</a> (context),
+                                <a href="https://www.lipingyang.org" target="_blank">Dr. Liping Yang</a> (technical support)</p>
+
+                            <p>Web map developer: <a href="https://sarigai-geoair.github.io/" target="_blank">Sarigai Sarigai</a> (sarigaigis@gmail.com)
+                            </p>
+
+                            <strong>Data source:</strong>
+
+                            <p> <a href="https://geography.unm.edu/" target="_blank">UNM Department of Geography</a></p>
+
+                            <strong>Acknowledgements:</strong>
+                            <p><a href="https://github.com/austinlyons/dcjs-leaflet-untappd" target="_blank">Tutorial - Beer Drinking Data Vizualization</a></p>
+
+                            </p>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Model compoent end  -->
+
+</body>
+
+</html>
