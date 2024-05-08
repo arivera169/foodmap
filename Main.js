@@ -2,7 +2,7 @@ window.onload = function () {
 
     var map = L.map('mapId2').setView([35.260310, -106.597695], 10);
 
-    var breweryMarkers = new L.FeatureGroup();
+    var storeMarkers = new L.FeatureGroup();
 
     //replace the code below from the Plain JavaScript from the map style you choose
     //at http://leaflet-extras.github.io/leaflet-providers/preview/
@@ -40,7 +40,7 @@ window.onload = function () {
 
     /* Parse JSON file, create charts, draw markers on map */
 
-    d3.csv('storesfiltered.csv', function (error, data) {
+    d3.csv('stores.csv', function (error, data) {
 
 
         //  *** tailored to project stop 
@@ -256,7 +256,19 @@ window.onload = function () {
                 // function (d) { return d.beer.rating_score; },
                 // function (d) { return d.beer.beer_abv; },
                 // function (d) { return d.beer.beer_ibu; }
-            ])
+            
+            
+             //data table column added by Dr. Yang START
+
+                function (d) { return d.Name; }, 
+                function (d) { return d.Score; }, 
+                function (d) { return d.fullAddress; }, 
+                function (d) { return d.City_1; }, 
+                function (d) { return d.county; }, 
+                function (d) { return d.Type_1; }
+
+            //data table column added by Dr. Yang END
+        ])
 
             //  alter code to city adapted to stores 
 
@@ -296,7 +308,7 @@ window.onload = function () {
 
                 //***tailored popup to project: Start 
 
-                breweryMarkers.clearLayers();
+                storeMarkers.clearLayers();
                 _.each(allDim.top(Infinity), function (d) {
                     var latitude = d["Y"];
                     var longitude = d["X"];
@@ -362,22 +374,30 @@ window.onload = function () {
                     });
 
 
-                    //   marker.bindPopup("<p>" + name + " " + fullAddress + " " + city + " " + county + " " + storeType + " " + "</p>");
-                    //   breweryMarkers.addLayer(marker);
-                    // });
-
 
                     // *** Modified popup display: start
                     marker.bindPopup(
-                        "<p>" + "Name: " + name + "<br>" + "Address: " + fullAddress + "<br> " + "City: " + city + "<br> " + "County: " + county + "<br> " + "Source Type: " + storeType + "<br> " + "</p>");
-                    breweryMarkers.addLayer(marker);
+                        
+                        // "<p>" + "Name: " + name + "<br>" + "Address: " + fullAddress + "<br> " + "City: " + city + "<br> " + "County: " + county + "<br> " + "Source Type: " + storeType + "<br> " + "</p>"
+                    
+                         //commented out by Dr. Yang
+                         "<p>" + 
+                         "<b> Name: </b>" + name + "<br>" + 
+                         "<b> Address: </b>" + fullAddress + "<br> " + 
+                         "<b> City: </b>" + city + "<br> " + 
+                         "<b> County: </b>" + county + "<br> " + 
+                         "<b> Store Type: </b>" + storeType + "<br> " + "</p>");
+                         //revised by Dr. Yang for readablity by adding the column name in bold, and also added the Score column.
+ 
+                  
+                    storeMarkers.addLayer(marker);
                 });
 
                 // *** Modified popup display: end 
 
                 // *** tailor variable to project breweryMarkers
-                map.addLayer(breweryMarkers);
-                map.fitBounds(breweryMarkers.getBounds());
+                map.addLayer(storeMarkers);
+                map.fitBounds(storeMarkers.getBounds());
             });
 
         // register handlers
@@ -431,4 +451,6 @@ window.onload = function () {
         //response.json(geojsonData)
         L.geoJSON(geojsonData).addTo(map);
     });
-}
+
+    // } commented out by Dr. Yang
+};//added by Dr. Yang

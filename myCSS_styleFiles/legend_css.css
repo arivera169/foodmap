@@ -1,0 +1,26 @@
+/* for the legend bar put above the map */
+.legend {
+    text-align: center;
+  }
+  
+.circle-Farmers-Market {
+    height: 10px;
+    width: 10px;
+    background-color: #fdbf6f;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+.circle-Fruits-Veg-Specialty{
+    height: 10px;
+    width: 10px;
+    background-color: #cab2d6;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* you team can add more legend types by copy and paste the circle CSS code above and make ajudst based on the color code in your Main.js */
+  
+/* for the legend bar put above the map */
+
+Farmers' Market

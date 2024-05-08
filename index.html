@@ -4,7 +4,7 @@
 <head>
   <meta charset=“UTF-8”>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Foodmap</title>
+  <title>Food Access Webmap</title>
 
   <!-- ***added code for heatmap -->
   <!-- <link rel="stylesheet" href="styles_leaflet_heatmap.css"> -->
@@ -17,7 +17,8 @@
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/styles_leaflet_untappd.css">
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/leaflet_Crossfilter.css">
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/bootstrap_v3.3.5.css">
-  <link rel="stylesheet" href="myCSS_styleFiles/CSS_Styles.css">
+  <link rel="stylesheet" href="myCSS_styleFiles/storeMap_CSS_Styles.css">
+  <link rel="stylesheet" href="myCSS_styleFiles/legend_css.css">
 
   <!-- ***added code for heatmap -->
   <!-- <script src="leaflet_1.8.0.js"></script>
@@ -32,11 +33,11 @@
   <!-- added code for untappd -->
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/jquery.min_v3.4.1.js"></script>
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/bootstrap.min_v3.4.1.js"></script>
-  <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3_3.5.5.js"></script>
+  <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3.js " charset="utf-8" ></script> 
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/crossfilter_v1.3.11.js"></script>
-  <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc_2.0.0-beta.11.js"></script>
+  <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc.js" charset="utf-8"></script> 
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/leaflet_Crossfilter.js"></script>
-  <script type="text/javascript" src="JS_CSS_downloaded_libraries/underscore-min_1.8.3.js"></script>
+  <script type="text/javascript" src="JS_CSS_downloaded_libraries/underscore-min_1.8.3.js"></script> 
 
   <script type="text/javascript" src="Main.js"></script>
 
@@ -71,11 +72,11 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Food Access Map</h4>
+                <h4 class="modal-title">Food Access Webmap</h4>
               </div>
               <div class="modal-body">
                 <!-- add text to apper in modal here in paragraph area -->
-                <h3> <b>About the project:</b> <br> </h3>
+                <h3> <b>About this project:</b> <br> </h3>
 
                 <p> The pressing issue of food access within New Mexico presents a unique set of challenges that merit
                   focused attention and innovative solutions. Grounded in the broader context of urban and rural food
@@ -101,7 +102,7 @@
 
 
                   This approach seeks to provide a comparative analysis to predominant methodologies used to indicate
-                  food access highlighting a dimension of food access that is often not depicted and containing insights
+                  food access highlighting a dimension of food access that is often not depicted and has potentially valueable 
                   for policymakers, community leaders, and stakeholders to devise targeted interventions for improving
                   food
                   security.
@@ -125,23 +126,26 @@
                     target="_blank"> SNAP Retailer Locator </a>
 
                   <br>
-                  <br> <b> Insipration: </b>
-                  <br><a href="https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/"
-                    target="_blank">https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data/
-                  </a>
+                  <br> <b> Insipration: </b>                  
                   <br><a href="https://ers.usda.gov/data-products/food-access-research-atlas/go-to-the-atlas/"
                     target="_blank">https://ers.usda.gov/data-products/food-access-research-atlas/go-to-the-atlas/</a>
                   <br><a href="https://nativeland.info/explore-topics/food-system-transition-index-fsti/"
                     target="_blank">
                     https://nativeland.info/explore-topics/food-system-transition-index-fsti/</a>
-                  <br><a href="https://www.ers.usda.gov/data-products/food-environment-atlas.aspx" target="_blank">
-                    https://www.ers.usda.gov/data-products/food-environment-atlas.aspx</a>
+                 
 
 
                   <br>
                   <br><b>Acknowledgements:</b>
-                  <br> Liping Yang <a href="https://geoair.lipingyang.org/" target="_blank"> Dr. Yang's GEOAIR Lab</a>
-                  <br> This Webmap was created for the final project for GEOG 485L Interactive Web Mapping
+                  <br> This webmap adapted code from two sources to create this webmap:
+                  <br><a href="austinlyons/dcjs-leaflet-untappd: Beer Drinking Data Vizualization using dc.js, Crossfilter, and Leaflet (github.com)
+                  " target="_blank"> Beer Drinking Data Vizualization</a>
+                  <br>  <a href="https://geoair-lab.github.io/WaterFeatureAI-WebApp/index.html" 
+                  target="_blank"> Literature of Intelligent Water Information Extraction Using AI</a>
+                  <br>
+                  <br> Special thanks to Liping Yang <a href="https://geoair.lipingyang.org/" target="_blank"> Dr. Yang's GEOAIR Lab</a>
+                  <br>
+                  <br> <u>This webmap was created for the final project for GEOG 485L Interactive Web Mapping</u>
                 </p>
               </div>
               <div class="modal-footer">
@@ -188,7 +192,36 @@
         <div class="col-xs-6"> -->
   <div class="row" id="control-row">
     <div class="col-xs-8">
+      <!-- Dr. Yang added legend START -->
+       <!-- Legend bar above the map  -->
+       <div class="row legend">
+        <strong>  Store Type: </strong>
+        <span class="circle-Farmers-Market"></span> Farmers' Market
+        <span class="circle-Fruits-Veg-Specialty"></span> Fruits/Veg Specialty
+        <!-- remember to add more css code for more store type in the legend_css.css file Dr. Yang added in the myCSS_styleFiles fodler -->
+      </div>
+      <!-- Dr. Yang added legend END -->
       <div id="mapId2"></div>
+      <!-- added data table by Dr. Yang --START -->
+    <div class="row">
+      <div class="col-xs-12">
+          <table class="table table-bordered table-striped" id="data-table">
+              <thead>
+                  <tr class="header">
+                      <th>Store Name</th>
+                      <th>Score </th>
+                      <th>Full Address </th>
+                      <th>City</th>
+                      <th>County</th>
+                      <th>Store Type</th>
+                    <!-- make sure the order is the same in the Main.js dataTable code column. -->
+                  </tr>
+              </thead>
+          </table>
+      </div>
+    </div>
+
+<!-- added data table by Dr. Yang --END -->
     </div>
   </div>
   <h3 class="offsetheading"> Media Library</h3>
