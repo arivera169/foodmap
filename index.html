@@ -6,39 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Food Access Webmap</title>
 
-  <!-- added code for uptappd -->
+  <!-- added code for bootstrap -->
   <link rel="stylesheet" href="JS_CSS_downloaded_libraries/bootstrap_v3.4.1.min.css">
+
+  <!-- added code for uptappd -->
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/styles_dc_untappd.css">
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/styles_leaflet_untappd.css">
-  <!-- <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/leaflet_Crossfilter.css"> -->
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/bootstrap_v3.3.5.css">
-  <link rel="stylesheet" href="myCSS_styleFiles/storeMap_CSS_Styles.css">
-  <link rel="stylesheet" href="myCSS_styleFiles/legend_css.css">
- 
- 
-  <!-- <link rel="stylesheet" href="MarkerCluster.css" />
-  <link rel="stylesheet" href="MarkerCluster.Default.css" /> -->
   
-
-  <!-- Amber? -->
-  <!-- <script src="loadcensustract.js"></script><script src="censusdata.js"></script>
--->
-  <!-- added code for untappd -->
+    <!-- added code for legend -->
+  <link rel="stylesheet" href="myCSS_styleFiles/storeMap_CSS_Styles.css">
+  <link rel="stylesheet" href="myCSS_styleFiles/legend.css">
+  
+    <!-- added code for bootstrap -->
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/jquery.min_v3.4.1.js"></script>
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/bootstrap.min_v3.4.1.js"></script>
-  <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3.js " charset="utf-8" ></script> 
+    <!-- added code for untappd -->
+  <script type="text/javascript" src="JS_CSS_downloaded_libraries/d3_v3.5.5.js " charset="utf-8" ></script> 
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/crossfilter_v1.3.11.js"></script>
-  <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc.js" charset="utf-8"></script> 
+  <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc_v2.0.0-beta.11.js" charset="utf-8"></script> 
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/leaflet_Crossfilter.js"></script>
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/underscore-min_1.8.3.js"></script>
   
-  <!-- <script src="leaflet.markercluster.js"></script>  -->
 
-  <script type="text/javascript" src="Main.js"></script>
-
-  <!-- Amber? -->
-
-  <!-- <script type="text/javascript" src="bivariatehexbin.js"></script> -->
+  <script type="text/javascript" src="myJS_scripts/Main.js"></script>
 
 </head>
 <header>
@@ -102,7 +93,7 @@
                   food
                   security.
 
-                  <br>
+                 
                   <br>
                   <b>About the People </b>
                   <br> Developers:
@@ -168,14 +159,13 @@
   <div class="row" id="control-row">
     <div class="col-xs-4 pie-chart">
       <h4>Store Type <small><a id="store" href="#">reset</a></small></h4>
-
       <div class="dc-chart" id="chart-ring-store"></div>
     </div>
-    <div class="col-xs-8 pie-chart">
+    <div class="col-xs-4 pie-chart"> 
       <h4>County <small><a id="county" href="#">reset</a></small></h4>
       <div class="dc-chart" id="chart-ring-county"></div>
     </div>
-    <div class="col-xs-12 pie-chart">
+    <div class="col-xs-4 pie-chart">
       <h4>City <small><a id="city" href="#">reset</a></small></h4>
       <div class="dc-chart" id="chart-ring-city"></div>
     </div>
@@ -186,9 +176,10 @@
        <!-- Legend bar above the map  -->
        <div class="row legend">
         <strong>  Store Type: </strong>
+        <span class=".circle-Bakery-Specialty"></span> Bakery Specialty
+        <span class=".circle-Combination-Grocery-Other"></span> Combination Grocery/Other
         <span class="circle-Farmers-Market"></span> Farmers' Market
         <span class="circle-Fruits-Veg-Specialty"></span> Fruits/Veg Specialty
-
         <span class="circle-Food-Buying-Co-op"></span> Food Buying Co-op
         <span class="circle-Large-Grocery-Store"></span> Large Grocery Store
         <span class="circle-Meat-Poultry-Specialty"></span> Meat/Poultry Specialty
@@ -201,14 +192,22 @@
         <!-- remember to add more css code for more store type in the legend_css.css file Dr. Yang added in the myCSS_styleFiles fodler -->
       </div>
       <!-- Dr. Yang added legend END -->
-      <div id="mapId2"></div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12"> 
+      
+          </div>
+          <div style ="width:125%" id="mapId2"></div>
+        </div>
+      </div>
+      
       <!-- added data table by Dr. Yang --START -->
     
       <div class="container-fluid">
         <div class="row">
           <h2>Stores Data Table </h2>
           <div class="col-xs-12">
-            <table class="table table-bordered table-striped" id="data-table">
+            <table style="width: 125%" class="table table-bordered table-striped" id="data-table">
               <thead>
                 <tr class="header">
                   <th>Store Name</th>

@@ -3,13 +3,13 @@
 /* #mapId2{ width: 650px; height: 450px;} */  
 /* commented out by Dr. Yang */
 /* this is the story points map */
-#mapId2{ width: 850px; height: 450px;} 
+#mapId2{ width: 90%; height: 450px;} 
 /* Dr. Yang makes the map a bit wide, as you tema will need to add more legend points */ 
 
 
 #mapId3{ width: 1300px; height: 625px; padding: 100px;}
-body { padding: 50px;}
-/* *{ padding-left: 50px;} */
+/* body { padding: 50px;} */
+*{ padding-left: 50px;}
 
 
 

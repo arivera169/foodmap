@@ -4,9 +4,6 @@ window.onload = function () {
 
     var storeMarkers = new L.FeatureGroup();
 
-    //replace the code below from the Plain JavaScript from the map style you choose
-    //at http://leaflet-extras.github.io/leaflet-providers/preview/
-
     var USGS_USImagery = L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 16,
         attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
@@ -19,18 +16,9 @@ window.onload = function () {
 
     /* Parse JSON file, create charts, draw markers on map */
 
-    d3.csv('stores.csv', function (error, data) {
+    //  *** start process
 
-
-        //  *** tailored to project stop 
-
-        // d3.json('Storesfiltered2.geojson', function (error, data) {
-        // var beerData = data.response.beers.items;
-        // ***check full date***
-
-        //  *** start process
-
-
+    d3.csv('data/stores.csv', function (error, data) {
 
         // var fullDateFormat = d3.time.format('%a, %d %b %Y %X %Z');
         // var yearFormat = d3.time.format('%Y');
@@ -348,17 +336,17 @@ window.onload = function () {
         d3.selectAll('a#all').on('click', function () {
             dc.filterAll();
             dc.renderAll();
-        });
-
-        d3.selectAll('a#store').on('click', function () {
+          });
+    
+          d3.selectAll('a#store').on('click', function () {
             storeChart.filterAll();
             dc.redrawAll();
-        });
-
-        d3.selectAll('a#county').on('click', function () {
+          });
+    
+          d3.selectAll('a#county').on('click', function () {
             countyChart.filterAll();
             dc.redrawAll();
-        });
+          });
 
         d3.selectAll('a#city').on('click', function () {
             cityChart.filterAll();
@@ -368,23 +356,6 @@ window.onload = function () {
         // showtime!
         dc.renderAll();
 
-    });
-
-
-    // });
-    // ;
-    // Amber code
-    document.addEventListener('DOMContentLoaded', async function () {
-        var geojsonData = await fetch("censustracts.geoJSON").
-            then(response => {
-                return response.json();
-            }).
-            then(data => {
-                return data;
-            })
-
-        //response.json(geojsonData)
-        L.geoJSON(geojsonData).addTo(map);
     });
 
     // } commented out by Dr. Yang
