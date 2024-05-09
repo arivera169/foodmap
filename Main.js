@@ -12,30 +12,9 @@ window.onload = function () {
         attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
     });
 
-    //change the varialbe "OpenTopoMap" according to the map style you choose
-    //It is the varialbe between "var" and "= L.titleLayer(..."  in Line 28 in this script
 
     USGS_USImagery.addTo(map);
-    // *** added heatmap: start
-    // USGS_USImagery.addTo(map);
-    //   var cfg = {
-    //     radius: .005,
-    //     maxOpacity: .8,
-    //     scaleRadius: true,
-    //     useLocalExtrema: true,
-    //     latField: "Y",
-    //     lngField: "X",
-    //     name: "Name",
-
-    //   };
-    //   var heatmapLayer = new HeatmapOverlay(cfg);
-    //   heatmapLayer.setData('Storesfiltered.csv');
-    //   map.addLayer(heatmapLayer);
-    // };
-
-
-
-    // *** added heatmap: end
+   
 
 
     /* Parse JSON file, create charts, draw markers on map */
@@ -86,7 +65,8 @@ window.onload = function () {
 
 
         var storeDim = ndx.dimension(function (d) { return d["Type_1"]; });
-        var countyDim = ndx.dimension(function (d) { return d["County"]; });
+        var countyDim = ndx.dimension(function (d) { return d["county"]; });
+        var cityDim = ndx.dimension(function (d) { return d["city"]; });
         // dc.pluck: short-hand for same kind of anon. function we used for yearDim
         // monthDim = ndx.dimension(dc.pluck('first_had_month')),
         // dayOfWeekDim = ndx.dimension(dc.pluck('first_had_day')),
@@ -111,11 +91,13 @@ window.onload = function () {
 
         var storeGroup = storeDim.group().reduceCount();
         var countyGroup = countyDim.group().reduceCount();
+        var cityGroup = cityDim.group().reduceCount();
 
         // specify charts
 
         var storeChart = dc.pieChart('#chart-ring-store');
         var countyChart = dc.pieChart('#chart-ring-county');
+        var cityChart = dc.pieChart('#chart-ring-city');
         // var yearChart = dc.pieChart('#chart-ring-year'),
 
         // ***tailored to project 
@@ -144,6 +126,7 @@ window.onload = function () {
         storeChart
             .width(150)
             .height(150)
+            .ordinalColors(['#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#0096FF','#40E0D0','#43a2ca','#0868ac','#7bccc4','#bae4bc','#B9C0C3','#f0f9e8'])
             .dimension(storeDim)
             .group(storeGroup)
             .innerRadius(20);
@@ -153,6 +136,12 @@ window.onload = function () {
             .height(150)
             .dimension(countyDim)
             .group(countyGroup)
+            .innerRadius(20);
+        cityChart
+            .width(150)
+            .height(150)
+            .dimension(cityDim)
+            .group(cityGroup)
             .innerRadius(20);
 
         // monthChart
@@ -261,68 +250,34 @@ window.onload = function () {
              //data table column added by Dr. Yang START
 
                 function (d) { return d.Name; }, 
-                function (d) { return d.Score; }, 
-                function (d) { return d.fullAddress; }, 
-                function (d) { return d.City_1; }, 
+                // function (d) { return d.Score; }, 
+                function (d) { return d.FullAddress; }, 
+                function (d) { return d.city; }, 
                 function (d) { return d.county; }, 
                 function (d) { return d.Type_1; }
 
             //data table column added by Dr. Yang END
         ])
 
-            //  alter code to city adapted to stores 
-
-
+        
             .sortBy(dc.pluck('Type_1'))
             .order(d3.descending)
             .on('renderlet', function (table) {
                 // each time table is rendered remove nasty extra row dc.js insists on adding
                 table.select('tr.dc-table-group').remove();
-                //  myFunctionHolder.pointToCircle = function (feature, latlng) {
-                //     var geojsonMarkerOptions = {
-                //       radius: 8,
-                //       //fillColor: "#F46B06",
-                //       fillColor: "yellow",
-                //       color: "black",
-                //       weight: 1,
-                //       opacity: 1,
-                //       fillOpacity: 0.8
-                //     };
-                //     var circleMarker = L.circleMarker(latlng, geojsonMarkerOptions);
-                //     return circleMarker;
-                // update map with breweries to match filtered data
-                // breweryMarkers.clearLayers();
-                // _.each(allDim.top(Infinity), function (d) {
-                //   var loc = d.brewery.location;
-                //   var name = d.brewery.brewery_name;
-                //   var marker = L.circleMarker([loc.lat, loc.lng], { 
-                //   radius: 8,
-                //   fillColor: "#F46B06",
-                //   // fillColor: "yellow",
-                //   color: "black",
-                //   weight: 1,
-                //   opacity: 1,
-                //   fillOpacity: 0.8});
-                //   marker.bindPopup("<p>" + name + " " + loc.brewery_city + " " + loc.brewery_state + "</p>");
-                //   breweryMarkers.addLayer(marker);
-
-                //***tailored popup to project: Start 
+               
 
                 storeMarkers.clearLayers();
                 _.each(allDim.top(Infinity), function (d) {
                     var latitude = d["Y"];
                     var longitude = d["X"];
-                    var fullAddress = d["FullAddres"];
+                    var FullAddress = d["FullAddress"];
                     var name = d["Name"];
-                    var city = d["City_1"];
-                    var county = d["County"];
+                    var city = d["city"];
+                    var county = d["county"];
                     var storeType = d["Type_1"];
 
-                    // Types of stores Bakery Specialty, Combination Grocery/Other, Farmers' Market, 
-                    //  Food Buying Co-op, Fruits/Veg Specialty, Large Grocery Store,
-                    //   Meat/Poultry Specialty, Medium Grocery Store, Small Grocery Store, 
-                    //   Super Store, Supermarket, Unknown, Wholesaler
-
+                    
                     if (storeType == "Bakery Specialty") {
                         fillColor_Var = "#fb9a99";
                     } else if (storeType == "Combination Grocery/Other") {
@@ -347,23 +302,12 @@ window.onload = function () {
                     } else if (storeType == "Supermarket") {
                         fillColor_Var = "#bae4bc";
                     } else if (storeType == "Unknown") {
-                        fillColor_Var = "#0096FF";
+                        fillColor_Var = "#B9C0C3";
                     } else if (storeType == "Wholesaler") {
                         fillColor_Var = "#f0f9e8";
                     }
-                    else {
-                        fillColor_Var = "#B9C0C3";
-                    }
-
-
-
-                    //***tailored popup to project: end
-
-
-
-                    // ***review for correct format to populate cordinates
-
-                    // *** commented out marker 
+                
+        
                     var marker = L.circleMarker([latitude, longitude], {
                         radius: 8,
                         fillColor: fillColor_Var,
@@ -383,7 +327,7 @@ window.onload = function () {
                          //commented out by Dr. Yang
                          "<p>" + 
                          "<b> Name: </b>" + name + "<br>" + 
-                         "<b> Address: </b>" + fullAddress + "<br> " + 
+                         "<b> Address: </b>" + FullAddress + "<br> " + 
                          "<b> City: </b>" + city + "<br> " + 
                          "<b> County: </b>" + county + "<br> " + 
                          "<b> Store Type: </b>" + storeType + "<br> " + "</p>");
@@ -395,7 +339,7 @@ window.onload = function () {
 
                 // *** Modified popup display: end 
 
-                // *** tailor variable to project breweryMarkers
+                
                 map.addLayer(storeMarkers);
                 map.fitBounds(storeMarkers.getBounds());
             });
@@ -416,25 +360,16 @@ window.onload = function () {
             dc.redrawAll();
         });
 
-
-        // d3.selectAll('a#month').on('click', function () {
-        //   monthChart.filterAll();
-        //   dc.redrawAll();
-        // });
-
-        // d3.selectAll('a#day').on('click', function () {
-        //   dayChart.filterAll();
-        //   dc.redrawAll();
-        // });
+        d3.selectAll('a#city').on('click', function () {
+            cityChart.filterAll();
+            dc.redrawAll();
+        });
 
         // showtime!
         dc.renderAll();
 
     });
 
-
-    // }
-    // *** onload sequence end
 
     // });
     // ;

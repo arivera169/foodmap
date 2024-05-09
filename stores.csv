@@ -1,4 +1,4 @@
-Score,City,X,Y,Name,Type_1,City_1,County,FullAddress
+Score,City,X,Y,Name,Type_1,city,county,FullAddress
 100,Albuquerque,-106.5819872,35.05840234,99 BANH ORIENTAL SUPERMARKET,Large Grocery Store,Albuquerque,BERNALILLO,5315 Gibson Blvd SE
 100,Albuquerque,-106.5819872,35.05840234,999 Seafood Supermarket Inc.,Combination Grocery/Other,Albuquerque,BERNALILLO,5315 Gibson Blvd Se
 100,Albuquerque,-106.577459,35.10969395,A Smoke Grocer Store,Combination Grocery/Other,Albuquerque,BERNALILLO,2325 San Pedro Dr NE

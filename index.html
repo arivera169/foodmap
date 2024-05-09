@@ -6,30 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Food Access Webmap</title>
 
-  <!-- ***added code for heatmap -->
-  <!-- <link rel="stylesheet" href="styles_leaflet_heatmap.css"> -->
-  <!-- <link rel="stylesheet" href="MarkerCluster.css" />
-  <link rel="stylesheet" href="MarkerCluster.Default.css" /> -->
-
   <!-- added code for uptappd -->
   <link rel="stylesheet" href="JS_CSS_downloaded_libraries/bootstrap_v3.4.1.min.css">
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/styles_dc_untappd.css">
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/styles_leaflet_untappd.css">
-  <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/leaflet_Crossfilter.css">
+  <!-- <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/leaflet_Crossfilter.css"> -->
   <link rel="stylesheet" type="text/css" href="JS_CSS_downloaded_libraries/bootstrap_v3.3.5.css">
   <link rel="stylesheet" href="myCSS_styleFiles/storeMap_CSS_Styles.css">
   <link rel="stylesheet" href="myCSS_styleFiles/legend_css.css">
-
-  <!-- ***added code for heatmap -->
-  <!-- <script src="leaflet_1.8.0.js"></script>
-  <script src="heatmap_v2.0.5.js"></script>
-  <script src="leaflet-heatmap.js"></script>
-  <script src="leaflet.markercluster.js"></script> -->
+ 
+ 
+  <!-- <link rel="stylesheet" href="MarkerCluster.css" />
+  <link rel="stylesheet" href="MarkerCluster.Default.css" /> -->
+  
 
   <!-- Amber? -->
   <!-- <script src="loadcensustract.js"></script><script src="censusdata.js"></script>
 -->
-
   <!-- added code for untappd -->
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/jquery.min_v3.4.1.js"></script>
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/bootstrap.min_v3.4.1.js"></script>
@@ -37,7 +30,9 @@
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/crossfilter_v1.3.11.js"></script>
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/dc.js" charset="utf-8"></script> 
   <script type="text/javascript" src="JS_CSS_downloaded_libraries/leaflet_Crossfilter.js"></script>
-  <script type="text/javascript" src="JS_CSS_downloaded_libraries/underscore-min_1.8.3.js"></script> 
+  <script type="text/javascript" src="JS_CSS_downloaded_libraries/underscore-min_1.8.3.js"></script>
+  
+  <!-- <script src="leaflet.markercluster.js"></script>  -->
 
   <script type="text/javascript" src="Main.js"></script>
 
@@ -113,9 +108,9 @@
                   <br> Developers:
                   <br>Amber Rivera: <a href="https://github.com/arivera169/arivera169.github.io" target="_blank">
                     Amber's Professional Website</a>
-                  <br>Jacob White: <a href="https://github.com/JacobWhite3/JacobWhite3.github.io" target="_blank">
+                  <br>Jacob White: <a href="https://jacobwhite3.github.io/" target="_blank">
                     Jacob's Professional Website</a>
-                  <br>Carl Sanfilipo: <a href="https://github.com/CarlSanfilipo/CarlSanfilipo.github.io"
+                  <br>Carl Sanfilipo: <a href="https://CarlSanfilipo.github.io"
                     target="_blank"> Carl's Professional Website</a>
                   <br>Professor:
                   <br>Liping Yang <a href="https://lipingyang.org/" target="_blank">Dr. Yang's Website</a>
@@ -138,8 +133,8 @@
                   <br>
                   <br><b>Acknowledgements:</b>
                   <br> This webmap adapted code from two sources to create this webmap:
-                  <br><a href="austinlyons/dcjs-leaflet-untappd: Beer Drinking Data Vizualization using dc.js, Crossfilter, and Leaflet (github.com)
-                  " target="_blank"> Beer Drinking Data Vizualization</a>
+                  <br><a href="https://github.com/austinlyons/dcjs-leaflet-untappd"
+                   target="_blank"> Beer Drinking Data Vizualization</a>
                   <br>  <a href="https://geoair-lab.github.io/WaterFeatureAI-WebApp/index.html" 
                   target="_blank"> Literature of Intelligent Water Information Extraction Using AI</a>
                   <br>
@@ -171,25 +166,20 @@
     </div>
   </div>
   <div class="row" id="control-row">
-    <div class="col-xs-2 pie-chart">
+    <div class="col-xs-4 pie-chart">
       <h4>Store Type <small><a id="store" href="#">reset</a></small></h4>
 
       <div class="dc-chart" id="chart-ring-store"></div>
     </div>
-    <div class="col-xs-2 pie-chart col-xs-offset-2">
+    <div class="col-xs-8 pie-chart">
       <h4>County <small><a id="county" href="#">reset</a></small></h4>
       <div class="dc-chart" id="chart-ring-county"></div>
     </div>
+    <div class="col-xs-12 pie-chart">
+      <h4>City <small><a id="city" href="#">reset</a></small></h4>
+      <div class="dc-chart" id="chart-ring-city"></div>
+    </div>
   </div>
-  <!-- <div class="col-xs-2 pie-chart">
-          <h4>Month <small><a id="month" href="#">reset</a></small></h4>
-          <div class="dc-chart" id="chart-ring-month"></div>
-        </div>
-        <div class="col-xs-2 pie-chart">
-          <h4>Day <small><a id="day">reset</a></small></h4>
-          <div id="chart-ring-day" class="dc-chart"></div>
-        </div>
-        <div class="col-xs-6"> -->
   <div class="row" id="control-row">
     <div class="col-xs-8">
       <!-- Dr. Yang added legend START -->
@@ -203,23 +193,27 @@
       <!-- Dr. Yang added legend END -->
       <div id="mapId2"></div>
       <!-- added data table by Dr. Yang --START -->
-    <div class="row">
-      <div class="col-xs-12">
-          <table class="table table-bordered table-striped" id="data-table">
+    
+      <div class="container-fluid">
+        <div class="row">
+          <h2>Stores Data Table </h2>
+          <div class="col-xs-12">
+            <table class="table table-bordered table-striped" id="data-table">
               <thead>
-                  <tr class="header">
-                      <th>Store Name</th>
-                      <th>Score </th>
-                      <th>Full Address </th>
-                      <th>City</th>
-                      <th>County</th>
-                      <th>Store Type</th>
-                    <!-- make sure the order is the same in the Main.js dataTable code column. -->
-                  </tr>
+                <tr class="header">
+                  <th>Store Name</th>
+                  <!-- <th>Score </th> -->
+                  <th>Full Address </th>
+                  <th>City</th>
+                  <th>County</th>
+                  <th>Store Type</th>
+                  <!-- make sure the order is the same in the Main.js dataTable code column. -->
+                </tr>
               </thead>
-          </table>
+            </table>
+          </div>
+        </div>
       </div>
-    </div>
 
 <!-- added data table by Dr. Yang --END -->
     </div>
