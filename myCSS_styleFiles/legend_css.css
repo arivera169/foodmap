@@ -18,9 +18,74 @@
     border-radius: 50%;
     display: inline-block;
 }
+.circle-Food-Buying-Co-op{
+  height: 10px;
+  width: 10px;
+  background-color: #ff7f00;
+  border-radius: 50%;
+  display: inline-block;
+}
+.circle-Large-Grocery-Store{
+  height: 10px;
+  width: 10px;
+  background-color: #0096FF;
+  border-radius: 50%;
+  display: inline-block;
+}
+.circle-Meat-Poultry-Specialty{
+  height: 10px;
+  width: 10px;
+  background-color: #40E0D0;
+  border-radius: 50%;
+  display: inline-block;
+}
+.circle-Medium-Grocery-Store{
+  height: 10px;
+  width: 10px;
+  background-color: #43a2ca;
+  border-radius: 50%;
+  display: inline-block;
+}
+.circle-Small-Grocery-Store{
+  height: 10px;
+  width: 10px;
+  background-color: #0868ac;
+  border-radius: 50%;
+  display: inline-block;
+}
+.circle-Super-Store{
+  height: 10px;
+  width: 10px;
+  background-color: #7bccc4;
+  border-radius: 50%;
+  display: inline-block;
+}
+.circle-Supermarket{
+  height: 10px;
+  width: 10px;
+  background-color: #bae4bc;
+  border-radius: 50%;
+  display: inline-block;
+}
+.circle-Unknown{
+  height: 10px;
+  width: 10px;
+  background-color: #0096FF;
+  border-radius: 50%;
+  display: inline-block;
+}
+.circle-Wholesaler{
+  height: 10px;
+  width: 10px;
+  background-color: #f0f9e8;
+  border-radius: 50%;
+  display: inline-block;
+}
 
+
+/* you team can add more legend types by copy and paste the circle CSS code above and make ajudst based on the color code in your Main.js */
+
+/* for the legend bar put above the map */
 /* you team can add more legend types by copy and paste the circle CSS code above and make ajudst based on the color code in your Main.js */
   
 /* for the legend bar put above the map */
-
-Farmers' Market
